@@ -6,9 +6,18 @@ using System.Threading.Tasks;
 
 namespace WNBA.Core.Api.DataModels
 {
+    /// <summary>
+    /// Describes a player with basic attributes
+    /// </summary>
     public class Player
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public Guid Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public double Height { get; set; }
+        public double Weight { get; set; }
+        public string? College { get; set; }
+        public string? Country { get; set; }
     }
 }

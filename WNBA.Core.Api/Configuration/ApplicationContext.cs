@@ -15,7 +15,11 @@ public class ApplicationDbContext : DbContext
     {
     }
 
+    public DbSet<Arena> Arenas { get; set; }
     public DbSet<Player> Players { get; set; }
+    public DbSet<TeamArena> TeamArenas { get; set; }
+    public DbSet<TeamPlayer> TeamPlayers { get; set; }
+    public DbSet<Team> Teams { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

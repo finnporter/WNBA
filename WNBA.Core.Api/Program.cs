@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WNBA.Core.Api.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+var a = builder.Configuration.GetConnectionString("Default");
 
 // Add services to the container.
 builder.Services
