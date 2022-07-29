@@ -29,6 +29,7 @@ public class ArenaController : BaseController
         return new OkObjectResult(200);
     }
 
+    //Index
     [HttpGet]
     [Route("arenas")]
     public async Task<ObjectResult> GetAll()
@@ -48,9 +49,30 @@ public class ArenaController : BaseController
         }
     }
 
+    //Read
+    [HttpGet]
+    [Route("arena/{id}")]
+    public async Task<ObjectResult> GetArenaById([FromRoute] string id)
+    {
+        logger.LogInformation($"Getting arena with id: {id}");
+
+        try
+        {
+            var arena = await context.Arenas.FirstAsync(x => x.Id.ToString() == id);
+            var json = JsonConvert.SerializeObject(arena);
+
+            return new OkObjectResult(json);
+        }
+        catch (Exception e)
+        {
+            return GetErrorResult(e.Message);
+        }
+    }
+
+    //Create
     [HttpPost]
     [Route("arena")]
-    public async Task<ObjectResult> Create()
+    public async Task<ObjectResult> CreateArena()
     {
         logger.LogInformation("Request to create arena received.");
 
