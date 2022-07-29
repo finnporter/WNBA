@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.OpenApi.Models;
 
 namespace WNBA.Core.Api.Configuration;
 
@@ -33,6 +34,14 @@ internal static class IServiceCollectionExtensions
             .AddSqlServer<ApplicationDbContext>("name=ConnectionStrings:Default");
 
         return services;
+    }
+
+    public static IServiceCollection AddSwagger(this IServiceCollection services)
+    {
+        return services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v0", new OpenApiInfo { Title = "WNBA", Version = "v0" });
+        });
     }
 
     //private static IServiceCollection AddConnectors(this IServiceCollection services)

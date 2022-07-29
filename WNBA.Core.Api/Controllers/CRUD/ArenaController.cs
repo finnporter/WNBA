@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using WNBA.Core.Api.Configuration;
 using WNBA.Core.Api.DataModels;
 
-namespace WNBA.Core.Api.Controllers;
+namespace WNBA.Core.Api.Controllers.CRUD;
 
 [ApiController]
 [ApiVersion("0.0")]

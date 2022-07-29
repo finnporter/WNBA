@@ -21,7 +21,14 @@ builder.Services
         options.DefaultApiVersion = new ApiVersion(0, 0);
         options.AssumeDefaultVersionWhenUnspecified = true;
         options.ReportApiVersions = true;
-    });
+    })
+    .AddSwagger();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
 builder.Services
     .AddVersionedApiExplorer(delegate (ApiExplorerOptions options)
     {
