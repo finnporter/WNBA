@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using WNBA.Core.Api.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
-var a = builder.Configuration.GetConnectionString("Default");
 
 // Add services to the container.
 builder.Services
