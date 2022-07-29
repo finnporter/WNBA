@@ -38,7 +38,7 @@ public class ArenaController : BaseController
 
         try
         {
-            var arenas = await context.Arenas.ToListAsync();
+            var arenas = await context.Arenas.ToListAsync().ConfigureAwait(false);
             var json = JsonConvert.SerializeObject(arenas);
 
             return new OkObjectResult(json);
@@ -58,7 +58,7 @@ public class ArenaController : BaseController
 
         try
         {
-            var arena = await context.Arenas.FirstAsync(x => x.Id.ToString() == id);
+            var arena = await context.Arenas.FirstAsync(x => x.Id.ToString() == id).ConfigureAwait(false);
             var json = JsonConvert.SerializeObject(arena);
 
             return new OkObjectResult(json);
@@ -81,7 +81,7 @@ public class ArenaController : BaseController
 
         if (string.IsNullOrWhiteSpace(body) || string.IsNullOrWhiteSpace(body.TrimStart('{').TrimEnd('}')))
         {
-            return new ObjectResult("No valid data for validation.")
+            return new ObjectResult("No valid data.")
             {
                 StatusCode = 422
             };
@@ -90,8 +90,8 @@ public class ArenaController : BaseController
         try
         {
             var arena = JsonConvert.DeserializeObject<Arena>(body);
-            await context.AddAsync<Arena>(arena);
-            await context.SaveChangesAsync();
+            await context.AddAsync<Arena>(arena).ConfigureAwait(false);
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -99,5 +99,64 @@ public class ArenaController : BaseController
         }
 
         return new OkObjectResult("Successfully created arena.");
+    }
+
+    //Update
+    [HttpPatch]
+    [Route("arena/{id}")]
+    public async Task<ObjectResult> UpdateArena([FromRoute] string id)
+    {
+        logger.LogInformation($"Request to update arena with id: {id}");
+
+        var stream = new StreamReader(Request.Body);
+        var body = await stream.ReadToEndAsync().ConfigureAwait(false);
+
+        if (string.IsNullOrWhiteSpace(body) || string.IsNullOrWhiteSpace(body.TrimStart('{').TrimEnd('}')))
+        {
+            return new ObjectResult("No valid data.")
+            {
+                StatusCode = 422
+            };
+        }
+
+        try
+        {
+            var arena = JsonConvert.DeserializeObject<Arena>(body);
+            if (id == arena.Id.ToString())
+            {
+                context.Update<Arena>(arena);
+                await context.SaveChangesAsync().ConfigureAwait(false);
+
+                return new OkObjectResult("Successfully updated arena.");
+            }            
+        }
+        catch (Exception e)
+        {
+            return GetErrorResult(e.Message);
+        }
+
+        return GetErrorResult("Something went wrong. I don't know how we ended up here.");
+    }
+
+    //Delete
+    [HttpDelete]
+    [Route("arena/{id}")]
+    public async Task<ObjectResult> DeleteArena([FromRoute] string id)
+    {
+        logger.LogInformation($"Request to delete arena with id: {id}");
+
+        try
+        {
+            var arena = await context.Arenas.FirstOrDefaultAsync(x => x.Id.ToString() == id).ConfigureAwait(false);
+            if (arena == null) { return GetErrorResult("Can't delete area that doesn't exist. Please check id."); }
+            context.Arenas.Remove(arena);
+            await context.SaveChangesAsync().ConfigureAwait(false);
+
+            return new OkObjectResult("Successfully deleted arena.");
+        }
+        catch (Exception e)
+        {
+            return GetErrorResult(e.Message);
+        }
     }
 }
