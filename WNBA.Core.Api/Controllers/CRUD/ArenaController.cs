@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using WNBA.Core.Api.Configuration;
 using WNBA.Core.Api.DataModels;
+using WNBA.Core.Api.JsonModels;
 
 namespace WNBA.Core.Api.Controllers.CRUD;
 
@@ -129,6 +130,42 @@ public class ArenaController : BaseController
 
                 return new OkObjectResult("Successfully updated arena.");
             }            
+        }
+        catch (Exception e)
+        {
+            return GetErrorResult(e.Message);
+        }
+
+        return GetErrorResult("Something went wrong. I don't know how we ended up here.");
+    }
+
+    //Update Multiple
+    [HttpPatch]
+    [Route("arenas")]
+    public async Task<ObjectResult> UpdateMultipleArenas()
+    {
+        logger.LogInformation($"Request to update multiple arenas");
+
+        var stream = new StreamReader(Request.Body);
+        var body = await stream.ReadToEndAsync().ConfigureAwait(false);
+
+        if (string.IsNullOrWhiteSpace(body) || string.IsNullOrWhiteSpace(body.TrimStart('{').TrimEnd('}')))
+        {
+            return new ObjectResult("No valid data.")
+            {
+                StatusCode = 422
+            };
+        }
+
+        try
+        {
+            var arenaCollection = JsonConvert.DeserializeObject<ArenaCollection>(body);
+            foreach (var arena in arenaCollection.Arenas)
+            {
+                context.Update<Arena>(arena);
+                await context.SaveChangesAsync().ConfigureAwait(false);               
+            }
+            return new OkObjectResult($"Successfully updated arenas");
         }
         catch (Exception e)
         {
