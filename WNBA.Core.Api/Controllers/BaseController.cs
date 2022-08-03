@@ -13,11 +13,11 @@ public class BaseController : Controller
     {
     }
 
-    public ObjectResult GetErrorResult(string message)
+    public ObjectResult GetObjectResult(int code, string message)
     {
         return new ObjectResult(message)
         {
-            StatusCode = 500
+            StatusCode = code
         };
     }
 }

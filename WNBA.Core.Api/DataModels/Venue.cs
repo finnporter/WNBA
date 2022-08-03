@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace WNBA.Core.Api.DataModels
 {
     /// <summary>
-    /// Describes an Arena with basic attributes
+    /// Describes a venue with basic attributes
     /// </summary>
-    public class Arena
+    public class Venue
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
