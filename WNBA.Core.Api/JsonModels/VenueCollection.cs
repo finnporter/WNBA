@@ -8,5 +8,5 @@ using WNBA.Core.Api.DataModels;
 
 namespace WNBA.Core.Api.JsonModels;
 
-public record ArenaCollection(
-    [property: JsonProperty("arenas")] IEnumerable<Arena> Arenas);
+public record VenueCollection(
+    [property: JsonProperty("venues")] IEnumerable<Venue> Venues);
