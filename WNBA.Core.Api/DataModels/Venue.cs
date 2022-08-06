@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,12 @@ namespace WNBA.Core.Api.DataModels
     /// <summary>
     /// Describes a venue with basic attributes
     /// </summary>
-    public class Venue
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public double Capacity { get; set; }
-    }
+    public record Venue
+    (
+        [property: JsonProperty("id")] Guid Id,
+        [property: JsonProperty("name")] string Name,
+        [property: JsonProperty("city")] string City,
+        [property: JsonProperty("state")] string State,
+        [property: JsonProperty("capacity")] double Capacity
+    );
 }

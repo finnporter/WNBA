@@ -9,16 +9,17 @@ namespace WNBA.Core.Api.DataModels
     /// <summary>
     /// Joins Teams and Players
     /// </summary>
-    public class TeamPlayer
+    public record TeamPlayer
+    (
+        Guid Id,
+        Guid PlayerId,
+        Guid TeamId,
+        string? JerseyNumber,
+        DateTime JoinedOn,
+        DateTime? LeftOn
+    )
     {
-        public Guid Id { get; set; }
-        public Guid PlayerId { get; set; }
-        public Guid TeamId { get; set; }
-        public string? JerseyNumber { get; set; }
-        public DateTime JoinedOn { get; set; }
-        public DateTime? LeftOn { get; set; }
-
         public virtual Team Team { get; set; }
         public virtual Player Player { get; set; }
-    }
+    };
 }

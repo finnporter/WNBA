@@ -9,14 +9,12 @@ namespace WNBA.Core.Api.DataModels
     /// <summary>
     /// Joins Teams and venues
     /// </summary>
-    public class TeamVenue
+    public record TeamVenue
+    (
+        Guid Id,
+        Guid VenueId,
+        Guid TeamId)
     {
-        public Guid Id { get; set; }
-        public Guid VenueId { get; set; }
-        public Guid TeamId { get; set; }
-        public DateTime UsedSince { get; set; }
-        public DateTime? UsedUntil { get; set; }
-
         public virtual Team Team { get; set; }
         public virtual Venue Venue { get; set; }
     }

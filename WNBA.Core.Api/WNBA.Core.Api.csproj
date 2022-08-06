@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="JsonModels\obj\**" />
+    <EmbeddedResource Remove="JsonModels\obj\**" />
+    <None Remove="JsonModels\obj\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Migrations\20220729181323_AddsTeamsAndArenas.cs" />
     <Compile Remove="Migrations\20220729181323_AddsTeamsAndArenas.Designer.cs" />
     <Compile Remove="Migrations\ApplicationDbContextModelSnapshot_old.cs" />
