@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Flurl;
+using Flurl.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -35,8 +37,17 @@ public class BasicDataController : BaseController
 
     [HttpGet]
     [Route("teamroster/{id}")]
-    public ObjectResult ReadTeamRoster([FromRoute] string id)
+    public async Task<ObjectResult> ReadTeamRoster([FromRoute] string id)
     {
-        return new OkObjectResult(200);
+        logger.LogInformation($"Starting process to retrieve team roster for {id}.");
+
+        var baseUrl = options.SportsradarBaseUrl;
+        var rawData = await baseUrl
+            .AppendPathSegment($"teams/{id}/profile.json")
+            .SetQueryParam("api_key", options.SportsradarApiKey)
+            .GetJsonAsync<TeamRoster>()
+            .ConfigureAwait(false);
+
+        return new OkObjectResult(rawData);
     }
 }

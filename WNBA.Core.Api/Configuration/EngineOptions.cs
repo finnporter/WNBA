@@ -10,5 +10,6 @@ namespace WNBA.Core.Api.Configuration
     {
         public const string Configuration = "Configuration";
         public string SportsradarApiKey { get; set; } = string.Empty;
+        public string SportsradarBaseUrl { get; set; } = string.Empty;
     }
 }
