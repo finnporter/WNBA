@@ -19,11 +19,13 @@ internal static class IServiceCollectionExtensions
     /// <param name="services">The current <see cref="IServiceCollection"/>.</param>
     /// <param name="configureOptions">The options configuration for the Connector Core.</param>
     /// <returns>The configured <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+    /// 
+
     public static IServiceCollection AddWNBAServices(this IServiceCollection services)
     {
         return services
             .AddDbContext();
-        //.Configure(configureOptions);
+            //.Configure(configureOptions);
         //.AddServices();
     }
 

@@ -6,7 +6,7 @@ using WNBA.Core.Api.Configuration;
 using WNBA.Core.Api.DataModels;
 using WNBA.Core.Api.JsonModels;
 
-namespace WNBA.Core.Api.Controllers.CRUD;
+namespace WNBA.Core.Api.Controllers.DataManagement;
 
 [ApiController]
 [ApiVersion("0.0")]
