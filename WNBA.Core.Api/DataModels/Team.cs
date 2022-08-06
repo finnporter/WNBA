@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WNBA.Core.Api.Enums;
 
 namespace WNBA.Core.Api.DataModels
 {
@@ -16,7 +15,7 @@ namespace WNBA.Core.Api.DataModels
         string Name,
         string State,
         string City,
-        Conference Conference,
+        string Conference,
         DateTime FoundedOn
     );
 }

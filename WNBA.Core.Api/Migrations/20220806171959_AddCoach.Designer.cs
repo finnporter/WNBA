@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WNBA.Core.Api.Configuration;
 
@@ -11,9 +12,10 @@ using WNBA.Core.Api.Configuration;
 namespace WNBA.Core.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220806171959_AddCoach")]
+    partial class AddCoach
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,64 +56,27 @@ namespace WNBA.Core.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BirthDate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BirthPlace")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("College")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("DraftedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float?>("DraftedYear")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Experience")
+                    b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("HeightInCm")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("HeightInINches")
-                        .HasColumnType("float");
-
-                    b.Property<string>("HighSchool")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("JerseyNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Pick")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Position")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float?>("RookieYear")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Round")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedOn")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<double?>("WeightInKg")
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Height")
                         .HasColumnType("float");
 
-                    b.Property<double?>("WeightInPounds")
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Weight")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
