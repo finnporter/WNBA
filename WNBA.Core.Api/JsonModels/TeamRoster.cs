@@ -13,7 +13,7 @@ public record TeamRoster(
     [property: JsonProperty("name")] string Name,
     [property: JsonProperty("market")] string Market,
     [property: JsonProperty("alias")] string Alias,
-    [property: JsonProperty("founded")] string Founded,
+    [property: JsonProperty("founded")] float Founded,
     [property: JsonProperty("venues")] Venue Venue,
     [property: JsonProperty("conference")] Conference Conference,
     [property: JsonProperty("coaches")] IEnumerable<Coach> Coaches,

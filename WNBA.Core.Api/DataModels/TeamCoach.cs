@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 namespace WNBA.Core.Api.DataModels
 {
     /// <summary>
-    /// Describes a Team with basic attributes
+    /// Joins Teams and Players
     /// </summary>
-    public record Team
+    public record TeamCoach
     (
         Guid Id,
-        string Name,
-        string Market,
-        string Alias,
-        DateTime? Founded,
-        string Conference
-    );
+        Guid TeamId,
+        Guid CoachId
+    )
+    {
+        public virtual Team Team { get; set; }
+        public virtual Coach Coach { get; set; }
+    };
 }

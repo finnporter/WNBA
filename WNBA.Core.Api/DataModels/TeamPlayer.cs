@@ -13,10 +13,7 @@ namespace WNBA.Core.Api.DataModels
     (
         Guid Id,
         Guid PlayerId,
-        Guid TeamId,
-        string? JerseyNumber,
-        DateTime JoinedOn,
-        DateTime? LeftOn
+        Guid TeamId
     )
     {
         public virtual Team Team { get; set; }
