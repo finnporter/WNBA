@@ -37,10 +37,10 @@ namespace WNBA.Core.Api.Services.Implementation
                 HighSchool = playerData.HighSchool,
                 College = playerData.College,
                 RookieYear = playerData.RookieYear,
-                DraftedBy = playerData.Draft.TeamId,
-                DraftedYear = playerData.Draft.Year,
-                Round = playerData.Draft.Round,
-                Pick = playerData.Draft.Pick,
+                DraftedBy = playerData.Draft?.TeamId,
+                DraftedYear = playerData.Draft?.Year,
+                Round = playerData.Draft?.Round,
+                Pick = playerData.Draft?.Pick,
                 UpdatedOn = playerData.UpdatedOn
             };
         }
