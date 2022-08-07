@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using WNBA.Core.Api.Services.Implementation;
+using WNBA.Core.Api.Services;
 
 namespace WNBA.Core.Api.Configuration;
 
@@ -24,9 +27,9 @@ internal static class IServiceCollectionExtensions
     public static IServiceCollection AddWNBAServices(this IServiceCollection services)
     {
         return services
-            .AddDbContext();
+            .AddDbContext()
             //.Configure(configureOptions);
-        //.AddServices();
+            .AddServices();
     }
 
     private static IServiceCollection AddDbContext(this IServiceCollection services)
@@ -53,10 +56,10 @@ internal static class IServiceCollectionExtensions
     //    return services;
     //}
 
-    //private static IServiceCollection AddServices(this IServiceCollection services)
-    //{
-    //    services.TryAddSingleton<IHuaweiAuthenticationService, HuaweiAuthenticationService>();
-    //    services.TryAddSingleton<IHuaweiPlantService, HuaweiPlantService>();
-    //    return services;
-    //}
+    private static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        services.TryAddScoped<IDataHandlingService, DataHandlingService>();
+        services.TryAddScoped<IMappingService, MappingService>();
+        return services;
+    }
 }
