@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WNBA.Core.Api.DataModels;
+using WNBA.Core.Api.DbHelper;
 
 namespace WNBA.Core.Api.DataModels;
 
-public record Coach(
-    [property: JsonProperty("id")] Guid Id,
-    [property: JsonProperty("first_name")] string FirstName,
-    [property: JsonProperty("last_name")] string LastName,
-    [property: JsonProperty("position")] string Position,
-    [property: JsonProperty("experience")] int? Experience);
+public class Coach : EntityBaseClass
+{
+    [property: JsonProperty("first_name")] public string FirstName { get; set; }
+    [property: JsonProperty("last_name")] public string LastName { get; set; }
+    [property: JsonProperty("position")] public string Position { get; set; }
+    [property: JsonProperty("experience")] public int? Experience { get; set; }
+}

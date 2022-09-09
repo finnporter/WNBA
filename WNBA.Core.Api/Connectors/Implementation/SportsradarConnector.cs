@@ -6,7 +6,7 @@ using WNBA.Core.Api.JsonModels;
 
 namespace WNBA.Core.Api.Connectors.Implementation
 {
-    internal sealed class SportsradarConnector
+    internal sealed class SportsradarConnector : ISportsradarConnector
     {
         private readonly EngineOptions options;
 
@@ -14,13 +14,17 @@ namespace WNBA.Core.Api.Connectors.Implementation
         {
             this.options = options.Value;
         }
-        public async Task<TeamRoster> ReadTeamRosterEndpointAsync(string id)
+        public async Task<TeamDto> ReadTeamRosterEndpointAsync(string id)
         {
             var baseUrl = options.SportsradarBaseUrl;
+
+            if (string.IsNullOrEmpty(id)) { throw new ArgumentNullException(nameof(id)); };
+            if (string.IsNullOrEmpty(baseUrl)) { throw new ArgumentNullException(nameof(baseUrl)); };
+
             return await baseUrl
                 .AppendPathSegment($"teams/{id}/profile.json")
                 .SetQueryParam("api_key", options.SportsradarApiKey)
-                .GetJsonAsync<TeamRoster>()
+                .GetJsonAsync<TeamDto>()
                 .ConfigureAwait(false);
         }
     }

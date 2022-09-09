@@ -10,7 +10,7 @@ namespace WNBA.Core.Api.JsonModels
     /// <summary>
     /// Describes a player with basic attributes
     /// </summary>
-    public record Player
+    public record PlayerDto
     (
         [property: JsonProperty("id")] Guid Id,
         [property: JsonProperty("status")] string Status,
@@ -44,6 +44,5 @@ namespace WNBA.Core.Api.JsonModels
                 return WeightInPounds * 0.4535924;
             }
         }
-
     }
 }

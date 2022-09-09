@@ -8,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WNBA.Core.Api.Services.Implementation;
 using WNBA.Core.Api.Services;
+using WNBA.Core.Api.Connectors;
+using WNBA.Core.Api.Connectors.Implementation;
 
 namespace WNBA.Core.Api.Configuration;
 
@@ -28,7 +30,7 @@ internal static class IServiceCollectionExtensions
     {
         return services
             .AddDbContext()
-            //.Configure(configureOptions);
+            .AddConnectors()
             .AddServices();
     }
 
@@ -49,17 +51,16 @@ internal static class IServiceCollectionExtensions
         });
     }
 
-    //private static IServiceCollection AddConnectors(this IServiceCollection services)
-    //{
-    //    services.TryAddSingleton<IHuaweiConnector, HuaweiConnector>();
+    private static IServiceCollection AddConnectors(this IServiceCollection services)
+    {
+        services.TryAddSingleton<ISportsradarConnector, SportsradarConnector>();
 
-    //    return services;
-    //}
+        return services;
+    }
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.TryAddScoped<IDataHandlingService, DataHandlingService>();
-        services.TryAddScoped<IMappingService, MappingService>();
         return services;
     }
 }

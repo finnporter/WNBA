@@ -9,6 +9,11 @@ namespace WNBA.Core.Api.Services
 {
     public interface IDataHandlingService
     {
-        Task<bool> HandleTeamRosterAsync(TeamRoster teamRosterData);
+        /// <summary>
+        /// Handles the saving of a teamroster to the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="team"></param>
+        Task<bool> HandleTeamRosterAsync(string id, TeamDto team);
     }
 }

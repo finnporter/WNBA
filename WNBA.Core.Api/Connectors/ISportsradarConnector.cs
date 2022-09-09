@@ -4,6 +4,6 @@ namespace WNBA.Core.Api.Connectors
 {
     public interface ISportsradarConnector
     {
-        Task<TeamRoster> ReadTeamRosterEndpointAsync(string id);
+        Task<TeamDto> ReadTeamRosterEndpointAsync(string id);
     }
 }

@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WNBA.Core.Api.DbHelper;
+using WNBA.Core.Api.JsonModels;
 
 namespace WNBA.Core.Api.DataModels
 {
     /// <summary>
     /// Describes a player with basic attributes
     /// </summary>
-    public class Player
+    public class Player : EntityBaseClass
     { 
-        public Guid Id { get; set; }
         public string? Status { get; set; }
         public string? FirstName { get; set; }
         public  string? LastName { get; set; }
@@ -33,6 +34,33 @@ namespace WNBA.Core.Api.DataModels
         public float? DraftedYear { get; set; }
         public string? Round { get; set; }
         public string? Pick { get; set; }
- 
+
+        public static Player ToModel(PlayerDto playerData)
+        {
+            return new Player()
+            {
+                Id = playerData.Id,
+                FirstName = playerData.FirstName,
+                LastName = playerData.LastName,
+                HeightInINches = playerData.HeightInINches,
+                HeightInCm = playerData.HeightInCm,
+                WeightInPounds = playerData.WeightInPounds,
+                WeightInKg = playerData.WeightInKg,
+                Status = playerData.Status,
+                Position = playerData.Position,
+                JerseyNumber = playerData.JerseyNumber,
+                BirthDate = playerData.BirthDate,
+                BirthPlace = playerData.BirthPlace,
+                Experience = playerData.Experience,
+                HighSchool = playerData.HighSchool,
+                College = playerData.College,
+                RookieYear = playerData.RookieYear,
+                DraftedBy = playerData.Draft?.TeamId,
+                DraftedYear = playerData.Draft?.Year,
+                Round = playerData.Draft?.Round,
+                Pick = playerData.Draft?.Pick,
+                UpdatedOn = playerData.UpdatedOn
+            };
+        }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System.Net;
 using WNBA.Core.Api.Configuration;
 using WNBA.Core.Api.Connectors;
 using WNBA.Core.Api.DataModels;
@@ -37,19 +38,26 @@ public class BasicDataController : BaseController
         return new OkObjectResult(200);
     }
 
+    /// <summary>
+    /// Handles the reading of team roster data from an api and saving it in the db
+    /// </summary>
+    /// <param name="id"></param>
     [HttpGet]
     [Route("teamroster/{id}")]
     public async Task<ObjectResult> ReadTeamRoster([FromRoute] string id)
     {
+        if (string.IsNullOrEmpty(id)) { throw new ArgumentNullException(nameof(id)); };
         logger.LogInformation($"Starting process to retrieve team roster for {id}.");
 
-        //TODO move this to a connector
-        var rawData = await sportsradarConnector.ReadTeamRosterEndpointAsync(id);
+        //var teamroster = await sportsradarConnector.ReadTeamRosterEndpointAsync(id);
+
+        //TEMP handing in an example payload until I'm sure the saving of it works
         var stream = new StreamReader(Request.Body);
         var body = await stream.ReadToEndAsync().ConfigureAwait(false);
-        var teamroster = JsonConvert.DeserializeObject<TeamRoster>(body);
-        var a = await dataHandlingService.HandleTeamRosterAsync(teamroster).ConfigureAwait(false);
+        var team = JsonConvert.DeserializeObject<TeamDto>(body);
 
-        return new OkObjectResult(200);
+        var result = await dataHandlingService.HandleTeamRosterAsync(id, team).ConfigureAwait(false);
+
+        return result ? new OkObjectResult(200) : new ObjectResult(HttpStatusCode.InternalServerError);
     }
 }
