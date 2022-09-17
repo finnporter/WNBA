@@ -14,6 +14,8 @@ namespace WNBA.Core.Api.Connectors.Implementation
         {
             this.options = options.Value;
         }
+
+        ///</inheridoc>
         public async Task<TeamDto> ReadTeamRosterEndpointAsync(string id)
         {
             var baseUrl = options.SportsradarBaseUrl;

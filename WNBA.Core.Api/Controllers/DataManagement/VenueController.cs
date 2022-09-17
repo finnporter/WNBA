@@ -8,6 +8,9 @@ using WNBA.Core.Api.JsonModels;
 
 namespace WNBA.Core.Api.Controllers.DataManagement;
 
+/// <summary>
+/// CRUD functionality for venues
+/// </summary>
 [ApiController]
 [ApiVersion("0.0")]
 [Route("v{version:apiVersion}")]
@@ -20,14 +23,6 @@ public class VenueController : BaseController
     {
         this.context = context;
         this.logger = logger;
-    }
-
-    [HttpGet]
-    [Route("ping")]
-    public OkObjectResult Ping()
-    {
-        logger.LogInformation("Venue controller was pinged");
-        return new OkObjectResult(200);
     }
 
     //Index

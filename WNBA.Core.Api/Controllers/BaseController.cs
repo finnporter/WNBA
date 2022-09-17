@@ -13,6 +13,20 @@ public class BaseController : Controller
     {
     }
 
+    /// <summary>
+    /// For checking if the engine is available.
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("ping")]
+    public OkObjectResult Ping()
+    {
+        return new OkObjectResult("WNBA engine pinged.")
+        {
+            StatusCode = 200,
+        };
+    }
+
     public ObjectResult GetObjectResult(int code, string message)
     {
         return new ObjectResult(message)

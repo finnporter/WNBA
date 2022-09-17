@@ -8,8 +8,15 @@ using WNBA.Core.Api.DataModels;
 
 namespace WNBA.Core.Api.Configuration;
 
+/// <summary>
+/// The database context for this application
+/// </summary>
 public class ApplicationDbContext : DbContext
 {
+    /// <summary>
+    /// Initiates a new instance of the ApplicationDbContext
+    /// </summary>
+    /// <param name="options"></param>
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {

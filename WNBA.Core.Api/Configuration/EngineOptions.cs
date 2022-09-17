@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WNBA.Core.Api.Configuration
 {
+    /// <summary>
+    /// Information important for running this data engine
+    /// </summary>
     public class EngineOptions
     {
         public const string Configuration = "Configuration";

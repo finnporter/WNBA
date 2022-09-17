@@ -14,6 +14,9 @@ using WNBA.Core.Api.Services;
 
 namespace WNBA.Core.Api.Controllers.DataManagement;
 
+/// <summary>
+/// Gets basic data re teams, rosters, etc. and saves it to the database.
+/// </summary>
 [ApiController]
 [ApiVersion("0.0")]
 [Route("v{version:apiVersion}/basicdata")]
@@ -28,14 +31,6 @@ public class BasicDataController : BaseController
         this.logger = logger;
         this.sportsradarConnector = sportsradarConnector;
         this.dataHandlingService = dataHandlingService;
-    }
-
-    [HttpGet]
-    [Route("ping")]
-    public OkObjectResult Ping()
-    {
-        logger.LogInformation("Basic data controller was pinged");
-        return new OkObjectResult(200);
     }
 
     /// <summary>
