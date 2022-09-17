@@ -51,11 +51,6 @@ public class BasicDataController : BaseController
 
         var teamroster = await sportsradarConnector.ReadTeamRosterEndpointAsync(id);
 
-        //TEMP handing in an example payload until I'm sure the saving of it works
-        //var stream = new StreamReader(Request.Body);
-        //var body = await stream.ReadToEndAsync().ConfigureAwait(false);
-        //var team = JsonConvert.DeserializeObject<TeamDto>(body);
-
         var result = await dataHandlingService.HandleTeamRosterAsync(id, teamroster).ConfigureAwait(false);
 
         return result ? new OkObjectResult(200) : new ObjectResult(HttpStatusCode.InternalServerError);
