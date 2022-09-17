@@ -55,7 +55,7 @@ public class VenueController : BaseController
     [Route("venue/{id}")]
     public async Task<ObjectResult> GetVenueById([FromRoute] string id)
     {
-        logger.LogInformation($"Getting venue with id: {id}");
+        logger.LogInformation("Getting venue with id: {id}", id);
 
         try
         {
@@ -104,7 +104,7 @@ public class VenueController : BaseController
     [Route("venue/{id}")]
     public async Task<ObjectResult> UpdateVenue([FromRoute] string id)
     {
-        logger.LogInformation($"Request to update venue with id: {id}");
+        logger.LogInformation("Request to update venue with id: {id}", id);
 
         var stream = new StreamReader(Request.Body);
         var body = await stream.ReadToEndAsync().ConfigureAwait(false);
@@ -171,7 +171,7 @@ public class VenueController : BaseController
     [Route("venue/{id}")]
     public async Task<ObjectResult> DeleteVenue([FromRoute] string id)
     {
-        logger.LogInformation($"Request to delete venue with id: {id}");
+        logger.LogInformation("Request to delete venue with id: {id}", id);
 
         try
         {

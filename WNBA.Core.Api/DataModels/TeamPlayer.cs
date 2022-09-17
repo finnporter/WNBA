@@ -14,7 +14,9 @@ namespace WNBA.Core.Api.DataModels
     { 
         public Guid PlayerId { get; set; }
         public Guid TeamId { get; set; }
+        public DateTime? EndedOn { get; set; }
+
         public virtual Team Team { get; set; }
-        public virtual Player Player { get; set; }
+        public virtual Player Player { get; set; }        
     };
 }

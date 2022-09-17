@@ -31,37 +31,53 @@ namespace WNBA.Core.Api.Services.Implementation
                 await CreateOrUpdateEntityAsync(team.Venue).ConfigureAwait(false);
 
                 var coaches = team.Coaches;
-                var newCoaches = new List<Coach>();
                 var newTeamCoaches = new List<TeamCoach>();
                 foreach (var coach in coaches)
                 {
-                    newCoaches.Add(coach);
+                    await CreateOrUpdateEntityAsync(coach).ConfigureAwait(false);
 
-                    newTeamCoaches.Add(new TeamCoach()
+                    var existingTeamCoach = await context.TeamCoaches
+                        .FirstOrDefaultAsync(x => x.CoachId == coach.Id &&
+                            x.TeamId == newTeam.Id &&
+                            x.EndedOn == null)
+                        .ConfigureAwait(false);
+
+                    if (existingTeamCoach is null)
                     {
-                        Id = Guid.NewGuid(), 
-                        TeamId = newTeam.Id,
-                        CoachId = coach.Id 
-                    });
+                        context.TeamCoaches.Add(new TeamCoach()
+                        {
+                            Id = Guid.NewGuid(),
+                            TeamId = newTeam.Id,
+                            CoachId = coach.Id,
+                        });
+
+                        await context.SaveChangesAsync().ConfigureAwait(false);
+                    }
+                    //else it already exists and nothing needs to be done.                
                 }
-                await CreateOrUpdateEntityListAsync(newCoaches).ConfigureAwait(false);
-                await CreateOrUpdateEntityListAsync(newTeamCoaches).ConfigureAwait(false);
 
                 var players = team.Players;
-                var newPlayers = new List<DataModels.Player>();
-                var newTeamPlayers = new List<TeamPlayer>();
                 foreach (var player in players)
                 {
-                    newPlayers.Add(Player.ToModel(player));
-                    newTeamPlayers.Add(new TeamPlayer()
+                    await CreateOrUpdateEntityAsync(Player.ToModel(player)).ConfigureAwait(false);
+
+                    var existingTeamPlayer = await context.TeamPlayers
+                        .FirstOrDefaultAsync(x => x.TeamId == newTeam.Id &&
+                            x.PlayerId == player.Id &&
+                            x.EndedOn == null)
+                        .ConfigureAwait(false);
+
+                    if ( existingTeamPlayer is null)
                     {
-                        Id = Guid.NewGuid(),
-                        PlayerId = player.Id,
-                        TeamId = newTeam.Id,
-                    });
+                        context.TeamPlayers.Add(new TeamPlayer()
+                        {
+                            Id = Guid.NewGuid(),
+                            PlayerId = player.Id,
+                            TeamId = newTeam.Id,
+                        });
+                    }
+                    //else it already exists and nothing needs to be done
                 }
-                await CreateOrUpdateEntityListAsync(newPlayers).ConfigureAwait(false);
-                await CreateOrUpdateEntityListAsync(newTeamPlayers).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -87,28 +103,6 @@ namespace WNBA.Core.Api.Services.Implementation
             {
                 await context.AddAsync(entity).ConfigureAwait(false);
             }
-            await context.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        private async Task CreateOrUpdateEntityListAsync<T>(List<T> entities) where T : EntityBaseClass
-        {
-            var addList = new List<T>();
-            var updateList = new List<T>();
-            foreach (var entity in entities)
-            {
-                var entityExists = await EntityExists(entity);
-                if (entityExists)
-                {
-                    updateList.Add(entity);
-                }
-                else
-                {
-                    addList.Add(entity);
-
-                }                
-            }
-            context.UpdateRange(updateList);
-            await context.AddRangeAsync(addList).ConfigureAwait(false);
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
     }
