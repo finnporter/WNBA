@@ -3,15 +3,18 @@ using WNBA.Core.Api.Configuration;
 using WNBA.Core.Api.DataModels;
 using WNBA.Core.Api.DbHelper;
 using WNBA.Core.Api.JsonModels;
+using WNBA.Core.Api.Repositories;
 
 namespace WNBA.Core.Api.Services.Implementation
 {
     internal sealed class DataHandlingService : IDataHandlingService
     {
         private readonly ApplicationDbContext context;
-        public DataHandlingService(ApplicationDbContext context)
+        private readonly IDatabaseRepository databaseRepository;
+        public DataHandlingService(ApplicationDbContext context, IDatabaseRepository databaseRepository)
         {
             this.context = context;
+            this.databaseRepository = databaseRepository;
         }
 
         ///<inheritdoc/>
@@ -27,14 +30,14 @@ namespace WNBA.Core.Api.Services.Implementation
             try
             {
                 var newTeam = Team.ToModel(team);
-                await CreateOrUpdateEntityAsync(newTeam).ConfigureAwait(false);
-                await CreateOrUpdateEntityAsync(team.Venue).ConfigureAwait(false);
+                await databaseRepository.CreateOrUpdateEntityAsync(newTeam).ConfigureAwait(false);
+                await databaseRepository.CreateOrUpdateEntityAsync(team.Venue).ConfigureAwait(false);
 
                 var coaches = team.Coaches;
                 var newTeamCoaches = new List<TeamCoach>();
                 foreach (var coach in coaches)
                 {
-                    await CreateOrUpdateEntityAsync(coach).ConfigureAwait(false);
+                    await databaseRepository.CreateOrUpdateEntityAsync(coach).ConfigureAwait(false);
 
                     var existingTeamCoach = await context.TeamCoaches
                         .FirstOrDefaultAsync(x => x.CoachId == coach.Id &&
@@ -59,7 +62,7 @@ namespace WNBA.Core.Api.Services.Implementation
                 var players = team.Players;
                 foreach (var player in players)
                 {
-                    await CreateOrUpdateEntityAsync(Player.ToModel(player)).ConfigureAwait(false);
+                    await databaseRepository.CreateOrUpdateEntityAsync(Player.ToModel(player)).ConfigureAwait(false);
 
                     var existingTeamPlayer = await context.TeamPlayers
                         .FirstOrDefaultAsync(x => x.TeamId == newTeam.Id &&
@@ -87,23 +90,6 @@ namespace WNBA.Core.Api.Services.Implementation
             return true;
         }
 
-        private async Task<bool> EntityExists<T>(T entity) where T : EntityBaseClass
-        {
-            return await context.Set<T>().AnyAsync(x => x.Id == entity.Id).ConfigureAwait(false);
-        }        
-
-        private async Task CreateOrUpdateEntityAsync<T>(T entity) where T : EntityBaseClass
-        {
-            var entityExists = await EntityExists(entity);
-            if (entityExists)
-            {
-                context.Update(entity);
-            }
-            else
-            {
-                await context.AddAsync(entity).ConfigureAwait(false);
-            }
-            await context.SaveChangesAsync().ConfigureAwait(false);
-        }
+        
     }
 }
