@@ -7,6 +7,9 @@ using WNBA.Core.Api.DataModels;
 
 namespace WNBA.Core.Api.Controllers;
 
+[ApiController]
+[ApiVersion("0.0")]
+[Route("v{version:apiVersion}")]
 public class BaseController : Controller
 {
     public BaseController()
