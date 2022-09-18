@@ -1,9 +1,15 @@
 # WNBA stats engine
 
 ## Introduction
+I've started this project to learn more about data handling. In the process I want to produce some fun stats that aren't the usual ones. I'm thinking about answering questions like:  
+Do players perform better on their birthday? Does height really make people better basketball players? And similar things.
 
 ## Specifications
-Everything that seems important to know.
+The project runs in .NET 6. It's a simple console project. The plan is to split the project up into several as it grows and makes sense.
+
+### How to run
+To get it to run, you'll need your own SQL Database and your own Sportsradar API key. You can find the documentation [here](https://developer.sportradar.com/io-docs).
+All you should have to do is fork and clone the project. Then restore the NuGet Packages and, fingers crossed, it should run. Feel free to reach out if it doesn't.
 
 ### Integrations
 Currently the engine connects to the Sportsradar API on a test account with limited requests per minute and month  
