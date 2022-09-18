@@ -7,6 +7,11 @@ Do players perform better on their birthday? Does height really make people bett
 ## Specifications
 The project runs in .NET 6. It's a simple console project. The plan is to split the project up into several as it grows and makes sense.
 
+### How to contribute
+The easiest way to contribute is to look for an issue that you find interesting and leave a comment. Because I'm working on this by myself at the moment, the issues are not always very clearly worded.
+So feel free to reach out and ask for clarification and let me know that you'd be interested to work on it. Then you need to fork the project and do a pull request when you're done.
+Please branch off develop and not main, as this will be the most up to date branch for a while.
+
 ### How to run
 To get it to run, you'll need your own SQL Database and your own Sportsradar API key. You can find the documentation [here](https://developer.sportradar.com/io-docs).
 All you should have to do is fork and clone the project. Then restore the NuGet Packages and, fingers crossed, it should run. Feel free to reach out if it doesn't.
