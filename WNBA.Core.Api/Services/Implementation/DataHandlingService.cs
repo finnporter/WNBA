@@ -99,5 +99,10 @@ namespace WNBA.Core.Api.Services.Implementation
                 await databaseRepository.CreateOrUpdateEntityAsync(Season.ToModel(season)).ConfigureAwait(false);
             }
         }
+
+        public async Task HandlePlayerAsync(string id, List<PlayerDto> player)
+        {
+            return;
+        }
     }
 }

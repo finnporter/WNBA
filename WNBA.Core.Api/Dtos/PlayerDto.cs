@@ -28,7 +28,7 @@ namespace WNBA.Core.Api.JsonModels
         [property: JsonProperty("updated")] DateTime UpdatedOn,
         [property: JsonProperty("rookie_year")] float RookieYear,
         [property: JsonProperty("draft")] Draft Draft,
-        [property: JsonProperty("seasons")] PlayerSeasonsDto Seasons
+        [property: JsonProperty("seasons")] PlayerSeasonsDto? Seasons
     )
     {
         public virtual double HeightInCm

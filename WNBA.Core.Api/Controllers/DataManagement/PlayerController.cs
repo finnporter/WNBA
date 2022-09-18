@@ -7,7 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WNBA.Core.Api.Configuration;
+using WNBA.Core.Api.Connectors;
 using WNBA.Core.Api.JsonModels;
+using WNBA.Core.Api.Services;
 
 namespace WNBA.Core.Api.Controllers.DataManagement
 {
@@ -21,11 +23,15 @@ namespace WNBA.Core.Api.Controllers.DataManagement
     {
         private readonly ApplicationDbContext context;
         private readonly ILogger<PlayerController> logger;
+        private readonly ISportsradarConnector sportsradarConnector;
+        private readonly IDataHandlingService dataHandlingService;
 
-        public PlayerController(ApplicationDbContext context, ILogger<PlayerController> logger)
+        public PlayerController(ApplicationDbContext context, ILogger<PlayerController> logger, ISportsradarConnector sportsradarConnector, IDataHandlingService dataHandlingService)
         {
             this.context = context;
             this.logger = logger;
+            this.sportsradarConnector = sportsradarConnector;
+            this.dataHandlingService = dataHandlingService;
         }
 
         [HttpGet]
@@ -35,12 +41,28 @@ namespace WNBA.Core.Api.Controllers.DataManagement
             if (string.IsNullOrEmpty(id)) { throw new ArgumentNullException(nameof(id)); };
             logger.LogInformation("Starting process to retrieve player {id}.", id);
 
-            //TODO connect to sportsradar
+            try
+            {
+                //TODO connect to sportsradar
+                //var player = await sportsradarConnector.ReadPlayerEndpointAsync(id).ConfigureAwait(false);
 
-            //TEMP handing in an example player until this works
-            var stream = new StreamReader(Request.Body);
-            var body = await stream.ReadToEndAsync();
-            var player = JsonConvert.DeserializeObject<PlayerDto>(body);
+                //TEMP handing in an example player until this works
+                var stream = new StreamReader(Request.Body);
+                var body = await stream.ReadToEndAsync();
+                var player = JsonConvert.DeserializeObject<PlayerDto>(body);
+
+                await dataHandlingService.HandlePlayerAsync(id, player);
+
+                return new ObjectResult("player was added");
+
+            }
+            catch (Exception ex)
+            {
+                return new ObjectResult($"player couldn't be added added because: {ex.Message}");
+
+            }
+
+
         }
     }
 }
