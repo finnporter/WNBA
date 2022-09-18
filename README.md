@@ -10,7 +10,9 @@ The project runs in .NET 6. It's a simple console project. The plan is to split 
 ### How to contribute
 The easiest way to contribute is to look for an issue that you find interesting and leave a comment. Because I'm working on this by myself at the moment, the issues are not always very clearly worded.
 So feel free to reach out and ask for clarification and let me know that you'd be interested to work on it. Then you need to fork the project and do a pull request when you're done.
-Please branch off develop and not main, as this will be the most up to date branch for a while.
+Please branch off develop and not main, as this will be the most up to date branch for a while. Always reference the issue you're working on in your branch name.
+e.g. feature/{issue number}/give-it-a-short-descriptive-name
+If you're unsure, don't worry. Just do as you see fit and it will be fine. I'm not always sticking to my own rules either.
 
 ### How to run
 To get it to run, you'll need your own SQL Database and your own Sportsradar API key. You can find the documentation [here](https://developer.sportradar.com/io-docs).
