@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WNBA.Core.Api", "WNBA.Core.Api\WNBA.Core.Api.csproj", "{728E5003-BE43-4553-834F-BD604093E88C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WNBA.Core.Api", "WNBA.Core.Api\WNBA.Core.Api.csproj", "{728E5003-BE43-4553-834F-BD604093E88C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{6462204E-CAD8-4DE1-AB43-28BAE25307D7}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

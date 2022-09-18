@@ -10,6 +10,8 @@ using WNBA.Core.Api.Services.Implementation;
 using WNBA.Core.Api.Services;
 using WNBA.Core.Api.Connectors;
 using WNBA.Core.Api.Connectors.Implementation;
+using WNBA.Core.Api.Repositories;
+using WNBA.Core.Api.Repositories.Implementation;
 
 namespace WNBA.Core.Api.Configuration;
 
@@ -31,7 +33,8 @@ internal static class IServiceCollectionExtensions
         return services
             .AddDbContext()
             .AddConnectors()
-            .AddServices();
+            .AddServices()
+            .AddRepositories();
     }
 
     private static IServiceCollection AddDbContext(this IServiceCollection services)
@@ -61,6 +64,12 @@ internal static class IServiceCollectionExtensions
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.TryAddScoped<IDataHandlingService, DataHandlingService>();
+        return services;
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services.TryAddScoped<IDatabaseRepository, DatabaseRepository>();
         return services;
     }
 }

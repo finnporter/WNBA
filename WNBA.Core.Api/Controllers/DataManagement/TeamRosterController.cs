@@ -19,14 +19,14 @@ namespace WNBA.Core.Api.Controllers.DataManagement;
 /// </summary>
 [ApiController]
 [ApiVersion("0.0")]
-[Route("v{version:apiVersion}/basicdata")]
-public class BasicDataController : BaseController
+[Route("v{version:apiVersion}")]
+public class TeamRosterController : BaseController
 {
-    private readonly ILogger<BasicDataController> logger;
+    private readonly ILogger<TeamRosterController> logger;
     private readonly ISportsradarConnector sportsradarConnector;
     private readonly IDataHandlingService dataHandlingService;
 
-    public BasicDataController(ILogger<BasicDataController> logger, ISportsradarConnector sportsradarConnector, IDataHandlingService dataHandlingService)
+    public TeamRosterController(ILogger<TeamRosterController> logger, ISportsradarConnector sportsradarConnector, IDataHandlingService dataHandlingService)
     {
         this.logger = logger;
         this.sportsradarConnector = sportsradarConnector;
