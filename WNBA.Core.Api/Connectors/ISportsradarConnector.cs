@@ -13,5 +13,11 @@ namespace WNBA.Core.Api.Connectors
         /// <param name="id"></param>
         /// <returns></returns>
         Task<TeamDto> ReadTeamRosterEndpointAsync(string id);
+
+        /// <summary>
+        /// Reads the seasons endpoint
+        /// </summary>
+        /// <returns>A list of all seasons</returns>
+        Task<List<SeasonDto>> ReadSeasonsEndpointAsync();
     }
 }
