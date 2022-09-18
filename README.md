@@ -20,7 +20,8 @@ All you should have to do is fork and clone the project. Then restore the NuGet 
 
 ### Integrations
 Currently the engine connects to the Sportsradar API on a test account with limited requests per minute and month  
-to get WNBA data. Other API providers might be integrated in the future.
+to get WNBA data. Other API providers might be integrated in the future.  
+The limited requests are also the reason I'm saving things to a database instead of doing the calculations on the fly. There is some basic data, that only needs to be updated every once in a while and therefore doesn't need to be fetched every time.
 
 ### Versions
 Current version: v1
