@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WNBA.Core.Api.Configuration;
 
@@ -11,9 +12,10 @@ using WNBA.Core.Api.Configuration;
 namespace WNBA.Core.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220806174958_updatePlayer")]
+    partial class updatePlayer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,7 +127,7 @@ namespace WNBA.Core.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Alias")
+                    b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -133,14 +135,14 @@ namespace WNBA.Core.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("Founded")
+                    b.Property<DateTime>("FoundedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Market")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("State")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -149,37 +151,19 @@ namespace WNBA.Core.Api.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamCoach", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CoachId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("EndedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("TeamId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CoachId");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("TeamCoaches");
-                });
-
             modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamPlayer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("EndedOn")
+                    b.Property<string>("JerseyNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("JoinedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LeftOn")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("PlayerId")
@@ -242,25 +226,6 @@ namespace WNBA.Core.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Venues");
-                });
-
-            modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamCoach", b =>
-                {
-                    b.HasOne("WNBA.Core.Api.DataModels.Coach", "Coach")
-                        .WithMany()
-                        .HasForeignKey("CoachId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WNBA.Core.Api.DataModels.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Coach");
-
-                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamPlayer", b =>

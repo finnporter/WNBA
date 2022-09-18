@@ -6,8 +6,11 @@ using WNBA.Core.Api.Configuration;
 using WNBA.Core.Api.DataModels;
 using WNBA.Core.Api.JsonModels;
 
-namespace WNBA.Core.Api.Controllers.CRUD;
+namespace WNBA.Core.Api.Controllers.DataManagement;
 
+/// <summary>
+/// CRUD functionality for venues
+/// </summary>
 [ApiController]
 [ApiVersion("0.0")]
 [Route("v{version:apiVersion}")]
@@ -20,14 +23,6 @@ public class VenueController : BaseController
     {
         this.context = context;
         this.logger = logger;
-    }
-
-    [HttpGet]
-    [Route("ping")]
-    public OkObjectResult Ping()
-    {
-        logger.LogInformation("Venue controller was pinged");
-        return new OkObjectResult(200);
     }
 
     //Index
@@ -55,7 +50,7 @@ public class VenueController : BaseController
     [Route("venue/{id}")]
     public async Task<ObjectResult> GetVenueById([FromRoute] string id)
     {
-        logger.LogInformation($"Getting venue with id: {id}");
+        logger.LogInformation("Getting venue with id: {id}", id);
 
         try
         {
@@ -104,7 +99,7 @@ public class VenueController : BaseController
     [Route("venue/{id}")]
     public async Task<ObjectResult> UpdateVenue([FromRoute] string id)
     {
-        logger.LogInformation($"Request to update venue with id: {id}");
+        logger.LogInformation("Request to update venue with id: {id}", id);
 
         var stream = new StreamReader(Request.Body);
         var body = await stream.ReadToEndAsync().ConfigureAwait(false);
@@ -171,7 +166,7 @@ public class VenueController : BaseController
     [Route("venue/{id}")]
     public async Task<ObjectResult> DeleteVenue([FromRoute] string id)
     {
-        logger.LogInformation($"Request to delete venue with id: {id}");
+        logger.LogInformation("Request to delete venue with id: {id}", id);
 
         try
         {

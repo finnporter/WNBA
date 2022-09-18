@@ -8,18 +8,27 @@ using WNBA.Core.Api.DataModels;
 
 namespace WNBA.Core.Api.Configuration;
 
+/// <summary>
+/// The database context for this application
+/// </summary>
 public class ApplicationDbContext : DbContext
 {
+    /// <summary>
+    /// Initiates a new instance of the ApplicationDbContext
+    /// </summary>
+    /// <param name="options"></param>
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
-    public DbSet<Venue> Venues { get; set; }
+    public DbSet<Coach> Coaches { get; set; }
     public DbSet<Player> Players { get; set; }
-    public DbSet<TeamVenue> TeamVenue { get; set; }
+    public DbSet<TeamCoach> TeamCoaches { get; set; }
     public DbSet<TeamPlayer> TeamPlayers { get; set; }
+    public DbSet<TeamVenue> TeamVenue { get; set; }
     public DbSet<Team> Teams { get; set; }
+    public DbSet<Venue> Venues { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

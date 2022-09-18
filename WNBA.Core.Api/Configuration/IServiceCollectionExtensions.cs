@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using WNBA.Core.Api.Services.Implementation;
+using WNBA.Core.Api.Services;
+using WNBA.Core.Api.Connectors;
+using WNBA.Core.Api.Connectors.Implementation;
 
 namespace WNBA.Core.Api.Configuration;
 
@@ -19,12 +24,14 @@ internal static class IServiceCollectionExtensions
     /// <param name="services">The current <see cref="IServiceCollection"/>.</param>
     /// <param name="configureOptions">The options configuration for the Connector Core.</param>
     /// <returns>The configured <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+    /// 
+
     public static IServiceCollection AddWNBAServices(this IServiceCollection services)
     {
         return services
-            .AddDbContext();
-        //.Configure(configureOptions);
-        //.AddServices();
+            .AddDbContext()
+            .AddConnectors()
+            .AddServices();
     }
 
     private static IServiceCollection AddDbContext(this IServiceCollection services)
@@ -44,17 +51,16 @@ internal static class IServiceCollectionExtensions
         });
     }
 
-    //private static IServiceCollection AddConnectors(this IServiceCollection services)
-    //{
-    //    services.TryAddSingleton<IHuaweiConnector, HuaweiConnector>();
+    private static IServiceCollection AddConnectors(this IServiceCollection services)
+    {
+        services.TryAddSingleton<ISportsradarConnector, SportsradarConnector>();
 
-    //    return services;
-    //}
+        return services;
+    }
 
-    //private static IServiceCollection AddServices(this IServiceCollection services)
-    //{
-    //    services.TryAddSingleton<IHuaweiAuthenticationService, HuaweiAuthenticationService>();
-    //    services.TryAddSingleton<IHuaweiPlantService, HuaweiPlantService>();
-    //    return services;
-    //}
+    private static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        services.TryAddScoped<IDataHandlingService, DataHandlingService>();
+        return services;
+    }
 }

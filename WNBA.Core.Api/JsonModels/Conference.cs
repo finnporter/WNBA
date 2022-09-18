@@ -8,5 +8,5 @@ using WNBA.Core.Api.DataModels;
 
 namespace WNBA.Core.Api.JsonModels;
 
-public record Team(
-    [property: JsonProperty("venues")] IEnumerable<Venue> Venues);
+public record Conference(
+    [property: JsonProperty("name")] string Name);
