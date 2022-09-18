@@ -9,5 +9,5 @@ using WNBA.Core.Api.DataModels;
 namespace WNBA.Core.Api.JsonModels;
 
 public record PlayerSeasonsDto(
-    [property: JsonProperty("seasons")] List<PlayerStatsDto> PlayerStatsDtos
+    [property: JsonProperty("seasons")] List<PlayerSeasonStatsTeamDto> PlayerStatsDtos
     );
