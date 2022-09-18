@@ -90,6 +90,14 @@ namespace WNBA.Core.Api.Services.Implementation
             return true;
         }
 
-        
+        public async Task HandleSeasonsAsync(List<SeasonDto> seasons)
+        {
+            ArgumentNullException.ThrowIfNull(seasons, nameof(seasons));
+
+            foreach (var season in seasons)
+            {
+                await databaseRepository.CreateOrUpdateEntityAsync(Season.ToModel(season)).ConfigureAwait(false);
+            }
+        }
     }
 }

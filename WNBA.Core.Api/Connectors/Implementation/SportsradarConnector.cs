@@ -29,5 +29,20 @@ namespace WNBA.Core.Api.Connectors.Implementation
                 .GetJsonAsync<TeamDto>()
                 .ConfigureAwait(false);
         }
+
+        public async Task<List<SeasonDto>> ReadSeasonsEndpointAsync()
+        {
+            var baseUrl = options.SportsradarBaseUrl;
+
+            if (string.IsNullOrEmpty(baseUrl)) { throw new ArgumentNullException(nameof(baseUrl)); };
+
+            var seasonList = await baseUrl
+                .AppendPathSegment("league/seasons.json")
+                .SetQueryParam("api_key", options.SportsradarApiKey)
+                .GetJsonAsync<SeasonListDto>()
+                .ConfigureAwait(false);
+
+            return seasonList.Seasons;
+        }
     }
 }
