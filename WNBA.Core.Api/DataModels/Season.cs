@@ -14,7 +14,6 @@ namespace WNBA.Core.Api.DataModels
     /// </summary>
     public class Season : EntityBaseClass
     {
-        [property: JsonProperty("id")] public string Id { get; set; }
         [property: JsonProperty("year")] public int Year { get; set; }
         [property: JsonProperty("start_date")] public DateTime StartDate { get; set; }
         [property: JsonProperty("end_date")] public DateTime EndDate { get; set; }
