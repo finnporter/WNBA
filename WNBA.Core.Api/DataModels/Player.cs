@@ -34,6 +34,9 @@ namespace WNBA.Core.Api.DataModels
         public float? DraftedYear { get; set; }
         public string? Round { get; set; }
         public string? Pick { get; set; }
+        public Guid CurrentTeamId { get; set; }
+
+        public virtual Team CurrentTeam { get; set; }
 
         public static Player ToModel(PlayerDto playerData)
         {
@@ -59,7 +62,8 @@ namespace WNBA.Core.Api.DataModels
                 DraftedYear = playerData.Draft?.Year,
                 Round = playerData.Draft?.Round,
                 Pick = playerData.Draft?.Pick,
-                UpdatedOn = playerData.UpdatedOn
+                UpdatedOn = playerData.UpdatedOn,
+                CurrentTeamId = playerData.CurrentTeamId.Id,
             };
         }
     }
