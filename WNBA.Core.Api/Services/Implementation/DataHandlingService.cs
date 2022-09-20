@@ -39,6 +39,7 @@ namespace WNBA.Core.Api.Services.Implementation
                 {
                     await databaseRepository.CreateOrUpdateEntityAsync(coach).ConfigureAwait(false);
 
+                    //TODO rethink. do coaches need to be treated like teamplayers?
                     var existingTeamCoach = await context.TeamCoaches
                         .FirstOrDefaultAsync(x => x.CoachId == coach.Id &&
                             x.TeamId == newTeam.Id &&
@@ -64,22 +65,7 @@ namespace WNBA.Core.Api.Services.Implementation
                 {
                     await databaseRepository.CreateOrUpdateEntityAsync(Player.ToModel(player)).ConfigureAwait(false);
 
-                    var existingTeamPlayer = await context.TeamPlayers
-                        .FirstOrDefaultAsync(x => x.TeamId == newTeam.Id &&
-                            x.PlayerId == player.Id &&
-                            x.EndedOn == null)
-                        .ConfigureAwait(false);
-
-                    if ( existingTeamPlayer is null)
-                    {
-                        context.TeamPlayers.Add(new TeamPlayer()
-                        {
-                            Id = Guid.NewGuid(),
-                            PlayerId = player.Id,
-                            TeamId = newTeam.Id,
-                        });
-                    }
-                    //else it already exists and nothing needs to be done
+                    await databaseRepository.CreateOrUpdateTeamPlayerAsync(player.Id, newTeam.Id);
                 }
             }
             catch (Exception e)
@@ -100,9 +86,21 @@ namespace WNBA.Core.Api.Services.Implementation
             }
         }
 
-        public async Task HandlePlayerAsync(string id, List<PlayerDto> player)
+        public async Task HandlePlayerAsync(string id, PlayerDto player)
         {
-            return;
+            await databaseRepository.CreateOrUpdateEntityAsync(Player.ToModel(player));
+
+            if (player.CurrentTeamId is not null)
+            {
+                await databaseRepository.CreateOrUpdateTeamPlayerAsync(player.Id, player.CurrentTeamId.Id);                
+            }
+
+            if (player.Seasons.Any())
+            {
+
+            }
+            //player seasons...?
+
         }
     }
 }
