@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WNBA.Core.Api.DbHelper;
+using WNBA.Core.Api.JsonModels;
 
 namespace WNBA.Core.Api.Repositories;
 
@@ -32,5 +33,5 @@ public interface IDatabaseRepository
     /// </summary>
     /// <param name="playerId"></param>
     /// <param name="teamId"></param>
-    Task CreateOrUpdateTeamPlayerAsync(Guid playerId, Guid teamId)
+    Task CreateOrUpdatePlayerStatsAsync(PlayerDto player);
 }

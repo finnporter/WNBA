@@ -63,9 +63,11 @@ namespace WNBA.Core.Api.Services.Implementation
                 var players = team.Players;
                 foreach (var player in players)
                 {
+                    player.CurrentTeamId = new TeamIdDto(newTeam.Id);
                     await databaseRepository.CreateOrUpdateEntityAsync(Player.ToModel(player)).ConfigureAwait(false);
 
-                    await databaseRepository.CreateOrUpdateTeamPlayerAsync(player.Id, newTeam.Id);
+                    //TODO handle this shit
+                    //await databaseRepository.CreateOrUpdatePlayerStatsAsync(player);
                 }
             }
             catch (Exception e)
@@ -88,18 +90,9 @@ namespace WNBA.Core.Api.Services.Implementation
 
         public async Task HandlePlayerAsync(string id, PlayerDto player)
         {
-            await databaseRepository.CreateOrUpdateEntityAsync(Player.ToModel(player));
+            await databaseRepository.CreateOrUpdateEntityAsync(Player.ToModel(player)).ConfigureAwait(false);
 
-            if (player.CurrentTeamId is not null)
-            {
-                await databaseRepository.CreateOrUpdateTeamPlayerAsync(player.Id, player.CurrentTeamId.Id);                
-            }
-
-            if (player.Seasons.Any())
-            {
-
-            }
-            //player seasons...?
+            await databaseRepository.CreateOrUpdatePlayerStatsAsync(player).ConfigureAwait(false);            
 
         }
     }

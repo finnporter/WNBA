@@ -6,4 +6,4 @@ public record PlayerSeasonDto(
     [property: JsonProperty("id")] Guid Id,
     [property: JsonProperty("year")] int Year,
     [property: JsonProperty("type")] string Type,
-    [property: JsonProperty("teams")] PlayerSeasonStatsTeamDto PlayerStats);
+    [property: JsonProperty("teams")] List<PlayerSeasonStatsTeamDto> PlayerStats);
