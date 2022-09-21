@@ -92,7 +92,11 @@ namespace WNBA.Core.Api.Services.Implementation
         {
             await databaseRepository.CreateOrUpdateEntityAsync(Player.ToModel(player)).ConfigureAwait(false);
 
-            await databaseRepository.CreateOrUpdatePlayerStatsAsync(player).ConfigureAwait(false);            
+            foreach (var season in player.Seasons)
+            {
+                await databaseRepository.CreateOrUpdatePlayerSeasonStatsAsync(season, player.Id).ConfigureAwait(false);
+            }
+                       
 
         }
     }

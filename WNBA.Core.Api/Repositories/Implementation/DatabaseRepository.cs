@@ -17,12 +17,7 @@ namespace WNBA.Core.Api.Repositories.Implementation
         public DatabaseRepository(ApplicationDbContext context)
         {
             this.context = context;
-        }
-
-        private async Task<bool> EntityExists<T>(Guid id) where T : EntityBaseClass
-        {
-            return await context.Set<T>().AnyAsync(x => x.Id == id).ConfigureAwait(false);
-        }
+        }        
 
         public async Task CreateOrUpdateEntityAsync<T>(T entity) where T : EntityBaseClass
         {
@@ -44,63 +39,47 @@ namespace WNBA.Core.Api.Repositories.Implementation
 
         }
 
-        public async Task CreateOrUpdatePlayerStatsAsync(PlayerDto player)
+        public async Task CreateOrUpdatePlayerSeasonStatsAsync(PlayerSeasonDto playerSeason, Guid playerId)
         {
-            await CreateOrUpdateEntityAsync(Player.ToModel(player)).ConfigureAwait(false);
-
-            foreach (var season in player.Seasons)
+            foreach (var playerStats in playerSeason.PlayerStats)
             {
-                foreach (var team in season.PlayerStats)
-                {
-                    var teamPlayerSeason = await context.TeamPlayerSeasons.FirstOrDefaultAsync(x => x.SeasonId == season.Id && x.PlayerId == player.Id && x.TeamId == team.Id).ConfigureAwait(false);
-                    if (teamPlayerSeason is null)
-                    {
-                        //create
-                        await context.TeamPlayerSeasons.AddAsync(new TeamPlayerSeason()
-                        {
-                            Id = Guid.NewGuid(),
-                            PlayerId = player.Id,
-                            TeamId = team.Id,
-                            SeasonId = season.Id
-                        }).ConfigureAwait(false);
+                var teamPlayerSeason = await CreateOrUpdateTeamPlayerSeasonAsync(playerSeason.Id, playerId, playerStats.Id).ConfigureAwait(false);
 
-                        //TODO create stats too
-                    }
-                    else
-                    {
-                        //update stats
-                        
-
-                    }
-                }                
+                await CreateOrUpdatePlayerStatsAsync(playerStats.PlayerTotalStats, teamPlayerSeason.Id, playerSeason.Id, true);
+                await CreateOrUpdatePlayerStatsAsync(playerStats.PlayerAverageStats, teamPlayerSeason.Id, playerSeason.Id, false);
             }
-
-            //var teamPlayer = await context.TeamPlayers
-            //        .FirstOrDefaultAsync(x => x.TeamId == teamId &&
-            //                x.PlayerId == playerId)
-            //            .ConfigureAwait(false);
-            //if (teamPlayer is null)
-            //{
-            //    await context.TeamPlayers.Where(x => x.PlayerId == playerId).ForEachAsync(x => x.IsActive = false).ConfigureAwait(false);
-
-            //    context.TeamPlayers.Add(new TeamPlayer()
-            //    {
-            //        Id = Guid.NewGuid(),
-            //        PlayerId = playerId,
-            //        TeamId = teamId,
-            //        IsActive = true
-            //    });
-
-            //    await context.SaveChangesAsync().ConfigureAwait(false);
-            //}
-            //else if (teamPlayer is not null && !teamPlayer.IsActive)
-            //{
-            //    //it already exists but we need to make sure it is active, and it's the only active team for that player
-            //    await context.TeamPlayers.ForEachAsync(x => x.IsActive = false);
-            //    teamPlayer.IsActive = true;
-            //    await context.SaveChangesAsync();
-            //}
-            ////else it already exists and is active nothing needs to be done
         }
+
+        private async Task<bool> EntityExists<T>(Guid id) where T : EntityBaseClass
+        {
+            return await context.Set<T>().AnyAsync(x => x.Id == id).ConfigureAwait(false);
+        }
+
+        private async Task<TeamPlayerSeason> CreateOrUpdateTeamPlayerSeasonAsync(Guid seasonId, Guid playerId, Guid teamId)
+        {
+            var teamPlayerSeason = await context.TeamPlayerSeasons.FirstOrDefaultAsync(x => x.SeasonId == seasonId && x.PlayerId == playerId && x.TeamId == teamId).ConfigureAwait(false);
+            if (teamPlayerSeason is not null)
+            {
+                return teamPlayerSeason;
+            }
+            return new TeamPlayerSeason()
+            {
+                Id = Guid.NewGuid(),
+                PlayerId = playerId,
+                TeamId = teamId,
+                SeasonId = seasonId
+            };
+        }
+
+        private async Task CreateOrUpdatePlayerStatsAsync(PlayerSeasonStatsDto statsDto, Guid statsId, Guid seasonId, bool isTotal)
+        {
+            var stats = await context.PlayerStats.FirstOrDefaultAsync(x => x.TeamPlayerSeasonId == statsId && x.IsTotal == isTotal).ConfigureAwait(false);
+            if (stats is null)
+            {
+                await context.PlayerStats.AddAsync(PlayerStats.ToModel(statsDto, seasonId, isTotal)).ConfigureAwait(false);
+
+                await context.SaveChangesAsync();
+            }
+        }        
     }
 }

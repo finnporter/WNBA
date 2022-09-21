@@ -24,6 +24,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<Coach> Coaches { get; set; }
     public DbSet<Player> Players { get; set; }
+    public DbSet<PlayerStats> PlayerStats { get; set; }
     public DbSet<Season> Seasons { get; set; }
     public DbSet<TeamCoach> TeamCoaches { get; set; }
     public DbSet<TeamPlayerSeason> TeamPlayerSeasons { get; set; }
