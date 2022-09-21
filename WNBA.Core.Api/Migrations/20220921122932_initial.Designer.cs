@@ -12,8 +12,8 @@ using WNBA.Core.Api.Configuration;
 namespace WNBA.Core.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220918124328_readdseason")]
-    partial class readdseason
+    [Migration("20220921122932_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,9 @@ namespace WNBA.Core.Api.Migrations
 
                     b.Property<string>("College")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CurrentTeamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("DraftedBy")
                         .HasColumnType("uniqueidentifier");
@@ -117,6 +120,8 @@ namespace WNBA.Core.Api.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrentTeamId");
 
                     b.ToTable("Players");
                 });
@@ -207,16 +212,16 @@ namespace WNBA.Core.Api.Migrations
                     b.ToTable("TeamCoaches");
                 });
 
-            modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamPlayer", b =>
+            modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamPlayerSeason", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("EndedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SeasonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TeamId")
@@ -226,9 +231,11 @@ namespace WNBA.Core.Api.Migrations
 
                     b.HasIndex("PlayerId");
 
+                    b.HasIndex("SeasonId");
+
                     b.HasIndex("TeamId");
 
-                    b.ToTable("TeamPlayers");
+                    b.ToTable("TeamPlayerSeasons");
                 });
 
             modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamVenue", b =>
@@ -278,6 +285,17 @@ namespace WNBA.Core.Api.Migrations
                     b.ToTable("Venues");
                 });
 
+            modelBuilder.Entity("WNBA.Core.Api.DataModels.Player", b =>
+                {
+                    b.HasOne("WNBA.Core.Api.DataModels.Team", "CurrentTeam")
+                        .WithMany()
+                        .HasForeignKey("CurrentTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CurrentTeam");
+                });
+
             modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamCoach", b =>
                 {
                     b.HasOne("WNBA.Core.Api.DataModels.Coach", "Coach")
@@ -297,11 +315,17 @@ namespace WNBA.Core.Api.Migrations
                     b.Navigation("Team");
                 });
 
-            modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamPlayer", b =>
+            modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamPlayerSeason", b =>
                 {
                     b.HasOne("WNBA.Core.Api.DataModels.Player", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WNBA.Core.Api.DataModels.Season", "Season")
+                        .WithMany()
+                        .HasForeignKey("SeasonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -312,6 +336,8 @@ namespace WNBA.Core.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Player");
+
+                    b.Navigation("Season");
 
                     b.Navigation("Team");
                 });
