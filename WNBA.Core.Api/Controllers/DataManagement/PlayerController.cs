@@ -53,12 +53,12 @@ namespace WNBA.Core.Api.Controllers.DataManagement
 
                 await dataHandlingService.HandlePlayerAsync(id, player);
 
-                return new ObjectResult("The player was successfully added.");
+                return new ObjectResult("The player was successfully added/updated.");
 
             }
             catch (Exception ex)
             {
-                return new ObjectResult($"Player couldn't be added added because: {ex.Message}");
+                return new ObjectResult($"Player couldn't be added/updated added because: {ex.InnerException?.Message}");
 
             }
 

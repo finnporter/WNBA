@@ -29,6 +29,9 @@ namespace WNBA.Core.Api.Services.Implementation
 
             try
             {
+                var venue = team.Venue;
+                await databaseRepository.CreateOrUpdateEntityAsync(venue).ConfigureAwait(false);
+
                 var newTeam = Team.ToModel(team);
                 await databaseRepository.CreateOrUpdateEntityAsync(newTeam).ConfigureAwait(false);
                 await databaseRepository.CreateOrUpdateEntityAsync(team.Venue).ConfigureAwait(false);

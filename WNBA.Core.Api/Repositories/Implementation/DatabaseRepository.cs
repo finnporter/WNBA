@@ -57,29 +57,36 @@ namespace WNBA.Core.Api.Repositories.Implementation
 
         private async Task<TeamPlayerSeason> CreateOrUpdateTeamPlayerSeasonAsync(Guid seasonId, Guid playerId, Guid teamId)
         {
-            var teamPlayerSeason = await context.TeamPlayerSeasons.FirstOrDefaultAsync(x => x.SeasonId == seasonId && x.PlayerId == playerId && x.TeamId == teamId).ConfigureAwait(false);
-            if (teamPlayerSeason is not null)
-            {
-                return teamPlayerSeason;
-            }
-            return new TeamPlayerSeason()
+            var teamPlayerSeason = await context.TeamPlayerSeasons.FirstOrDefaultAsync(x => x.SeasonId == seasonId && x.PlayerId == playerId && x.TeamId == teamId).ConfigureAwait(false);            
+            if (teamPlayerSeason is not null) { return teamPlayerSeason; }
+            teamPlayerSeason = new TeamPlayerSeason()
             {
                 Id = Guid.NewGuid(),
                 PlayerId = playerId,
                 TeamId = teamId,
                 SeasonId = seasonId
             };
+            await context.AddAsync(teamPlayerSeason);
+            await context.SaveChangesAsync().ConfigureAwait(false);
+            return teamPlayerSeason;
         }
 
         private async Task CreateOrUpdatePlayerStatsAsync(PlayerSeasonStatsDto statsDto, Guid statsId, Guid seasonId, bool isTotal)
-        {
-            var stats = await context.PlayerStats.FirstOrDefaultAsync(x => x.TeamPlayerSeasonId == statsId && x.IsTotal == isTotal).ConfigureAwait(false);
-            if (stats is null)
+        {            
+            var existingStatsId = await context.PlayerStats.Where(x => x.TeamPlayerSeasonId == statsId && x.IsTotal == isTotal).Select(x => x.Id).FirstOrDefaultAsync().ConfigureAwait(false);
+            var newStats = PlayerStats.ToModel(statsDto, statsId, isTotal);
+            if (existingStatsId != Guid.Empty)
             {
-                await context.PlayerStats.AddAsync(PlayerStats.ToModel(statsDto, seasonId, isTotal)).ConfigureAwait(false);
+                newStats.Id = existingStatsId;
 
-                await context.SaveChangesAsync();
+                context.Update(newStats);
             }
+            if (existingStatsId == Guid.Empty)
+            {
+                newStats.TeamPlayerSeasonId = statsId;
+                await context.PlayerStats.AddAsync(newStats).ConfigureAwait(false);                
+            }
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }        
     }
 }
