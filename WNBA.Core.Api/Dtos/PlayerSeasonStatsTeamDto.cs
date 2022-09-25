@@ -6,5 +6,6 @@ public record PlayerSeasonStatsTeamDto(
     [property: JsonProperty("id")] Guid Id,
     [property: JsonProperty("name")] string Name,
     [property: JsonProperty("alias")] string Alias,
+    [property: JsonProperty("market")] string Market,
     [property: JsonProperty("total")] PlayerSeasonStatsDto PlayerTotalStats,
     [property: JsonProperty("average")] PlayerSeasonStatsDto PlayerAverageStats);

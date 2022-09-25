@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Compile Remove="DataModels\TeamPlayer.cs" />
+    <Compile Remove="Dtos\PlayerSeasonsDto.cs" />
     <Compile Remove="Migrations\20220729175529_AddPlayer.cs" />
     <Compile Remove="Migrations\20220729175529_AddPlayer.Designer.cs" />
     <Compile Remove="Migrations\20220729181323_AddsTeamsAndArenas.cs" />

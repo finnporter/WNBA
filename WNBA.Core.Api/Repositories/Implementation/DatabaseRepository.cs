@@ -43,6 +43,18 @@ namespace WNBA.Core.Api.Repositories.Implementation
         {
             foreach (var playerStats in playerSeason.PlayerStats)
             {
+                var teamExists = await context.Teams.AnyAsync(x => x.Id == playerStats.Id).ConfigureAwait(false);
+                if (!teamExists)
+                {
+                    var newTeam = new Team()
+                    {
+                        Id = playerStats.Id,
+                        Alias = playerStats.Alias,
+                        Name = playerStats.Name,
+                        Market = playerStats.Market
+                    };
+                    await context.AddAsync(newTeam).ConfigureAwait(false);
+                }
                 var teamPlayerSeason = await CreateOrUpdateTeamPlayerSeasonAsync(playerSeason.Id, playerId, playerStats.Id).ConfigureAwait(false);
 
                 await CreateOrUpdatePlayerStatsAsync(playerStats.PlayerTotalStats, teamPlayerSeason.Id, playerSeason.Id, true);
