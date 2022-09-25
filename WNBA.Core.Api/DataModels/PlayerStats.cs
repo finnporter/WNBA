@@ -7,63 +7,63 @@ public class PlayerStats : EntityBaseClass
 {
     public Guid TeamPlayerSeasonId { get; set; }
     public bool IsTotal { get; set; }
-    public int? GamesPlayed { get; set; }
-    public int? GamesStarted { get; set; }
-    public int Minutes { get; set; }
-    public int FieldGoalsMade { get; set; }
-    public int FieldGoalsAttempts { get; set; }
-    public int FieldGoalsPercent { get; set; }
-    public int TwoPointsMade { get; set; }
-    public int TwoPointsAttempts { get; set; }
-    public int TwoPointsPercent { get; set; }
-    public int ThreePointsMade { get; set; }
-    public int ThreePointsAttempts { get; set; }
-    public int ThreePointsPercent { get; set; }
-    public int BlockedAttempts { get; set; }
-    public int FreeThrowsMade { get; set; }
-    public int FreeThrowsAttempts { get; set; }
-    public int FreeTrhowsPercent { get; set; }
-    public int? OffensiveRebounds { get; set; }
-    public int? OffRebounds { get; set; }
-    public int? DefensiveRebounds { get; set; }
-    public int? DefRebounds { get; set; }
-    public int Rebounds { get; set; }
-    public int Assists { get; set; }
-    public int Turnovers { get; set; }
+    public float? GamesPlayed { get; set; }
+    public float? GamesStarted { get; set; }
+    public float Minutes { get; set; }
+    public float FieldGoalsMade { get; set; }
+    public float FieldGoalsAttempts { get; set; }
+    public float FieldGoalsPercent { get; set; }
+    public float TwoPointsMade { get; set; }
+    public float TwoPointsAttempts { get; set; }
+    public float TwoPointsPercent { get; set; }
+    public float ThreePointsMade { get; set; }
+    public float ThreePointsAttempts { get; set; }
+    public float ThreePointsPercent { get; set; }
+    public float BlockedAttempts { get; set; }
+    public float FreeThrowsMade { get; set; }
+    public float FreeThrowsAttempts { get; set; }
+    public float FreeTrhowsPercent { get; set; }
+    public float? OffensiveRebounds { get; set; } //Sportsradar uses different naming for average stats and total stats.
+    public float? OffRebounds { get; set; }
+    public float? DefensiveRebounds { get; set; } //Sportsradar uses different naming for average stats and total stats.
+    public float? DefRebounds { get; set; }
+    public float Rebounds { get; set; }
+    public float Assists { get; set; }
+    public float Turnovers { get; set; }
     public float AssistsTurnoverRatio { get; set; }
-    public int Steals { get; set; }
-    public int Blocks { get; set; }
-    public int PersonalFouls { get; set; }
-    public int TechnicalFouls { get; set; }
-    public int Points { get; set; }
-    public int FlagrantFouls { get; set; }
-    public int Ejections { get; set; }
-    public int Foulouts { get; set; }
+    public float Steals { get; set; }
+    public float Blocks { get; set; }
+    public float PersonalFouls { get; set; }
+    public float TechnicalFouls { get; set; }
+    public float Points { get; set; }
+    public float FlagrantFouls { get; set; }
+    public float Ejections { get; set; }
+    public float Foulouts { get; set; }
     public float TrueShootingAttempts { get; set; }
     public float TrueShootingPercent { get; set; }
-    public int Efficiency { get; set; }
-    public int PointsOffTurnovers { get; set; }
-    public int PointsInPaint { get; set; }
+    public float Efficiency { get; set; }
+    public float PointsOffTurnovers { get; set; }
+    public float PointsInPaint { get; set; }
     public double PointsInPaintMade { get; set; }
     public double PointsInPaintAttempts { get; set; }
     public double PointsInPaintPercent { get; set; }
     public double EffeciveFGPercent { get; set; }
-    public int DoubleDoubles { get; set; }
-    public int TripleDoubles { get; set; }
-    public int FoulsDrawn { get; set; }
-    public int OffensiveFouls { get; set; }
-    public int FastBreakPoints { get; set; }
-    public int FastBreakAttempts { get; set; }
-    public int FastBreakMade { get; set; }
-    public int FastBreakPercent { get; set; }
-    public int CoachEjections { get; set; }
-    public int SecondChancePercent { get; set; }
-    public int SecondChancePoints { get; set; }
-    public int SecondChanceAttributes { get; set; }
-    public int SecondChanceMade { get; set; }
-    public int Minus { get; set; }
-    public int Plus { get; set; }
-    public int CoachTechsFouls { get; set; }
+    public float DoubleDoubles { get; set; }
+    public float TripleDoubles { get; set; }
+    public float FoulsDrawn { get; set; }
+    public float OffensiveFouls { get; set; }
+    public float FastBreakPoints { get; set; }
+    public float FastBreakAttempts { get; set; }
+    public float FastBreakMade { get; set; }
+    public float FastBreakPercent { get; set; }
+    public float CoachEjections { get; set; }
+    public float SecondChancePercent { get; set; }
+    public float SecondChancePoints { get; set; }
+    public float SecondChanceAttempts { get; set; }
+    public float SecondChanceMade { get; set; }
+    public float Minus { get; set; }
+    public float Plus { get; set; }
+    public float CoachTechsFouls { get; set; }
 
     public virtual TeamPlayerSeason TeamPlayerSeason { get; set; }
 
@@ -71,9 +71,66 @@ public class PlayerStats : EntityBaseClass
     {
         return new PlayerStats()
         {
-            Id = dto.Id,
-            TeamPlayerSeasonId = teamPlayerSeasonId,
-            IsTotal =isTotal
+            Id = Guid.NewGuid(), //this will most likely not be used as a PK
+            TeamPlayerSeasonId = teamPlayerSeasonId, //should be used as a PK
+            IsTotal =isTotal, //as opposed to average stats
+            GamesPlayed = dto.GamesPlayed,
+            GamesStarted = dto.GamesStarted,
+            Minutes = dto.Minutes,
+            FieldGoalsAttempts = dto.FieldGoalsAttempts,
+            FieldGoalsMade = dto.FieldGoalsMade,
+            FieldGoalsPercent = dto.FieldGoalsPercent,
+            ThreePointsAttempts = dto.ThreePointsAttempts,
+            ThreePointsMade = dto.ThreePointsMade,
+            ThreePointsPercent = dto.ThreePointsPercent,
+            TwoPointsAttempts = dto.TwoPointsAttempts,
+            TwoPointsMade = dto.TwoPointsMade,
+            TwoPointsPercent = dto.TwoPointsPercent,
+            BlockedAttempts = dto.BlockedAttempts,  
+            FreeThrowsAttempts = dto.FreeThrowsAttempts,
+            FreeThrowsMade = dto.FreeThrowsMade,
+            FreeTrhowsPercent = dto.FreeTrhowsPercent,
+            OffensiveRebounds = dto.OffensiveRebounds,
+            OffRebounds = dto.OffRebounds,
+            DefensiveRebounds = dto.DefensiveRebounds,
+            DefRebounds = dto.DefRebounds,
+            Rebounds = dto.Rebounds,
+            Assists = dto.Assists,
+            Turnovers = dto.Turnovers,
+            AssistsTurnoverRatio = dto.AssistsTurnoverRatio,
+            Steals = dto.Steals,
+            Blocks = dto.Blocks,
+            PersonalFouls = dto.PersonalFouls,
+            TechnicalFouls = dto.TechnicalFouls,
+            Points = dto.Points,
+            FlagrantFouls = dto.FlagrantFouls,
+            Ejections = dto.Ejections,
+            Foulouts = dto.Foulouts,
+            TrueShootingAttempts = dto.TrueShootingAttempts,
+            TrueShootingPercent = dto.TrueShootingPercent,
+            Efficiency = dto.Efficiency,
+            PointsOffTurnovers = dto.PointsOffTurnovers,
+            PointsInPaint = dto.PointsInPaint,
+            PointsInPaintAttempts = dto.PointsInPaintAttempts,
+            PointsInPaintMade = dto.PointsInPaintMade,
+            PointsInPaintPercent = dto.PointsInPaintPercent,
+            EffeciveFGPercent = dto.EffeciveFGPercent,
+            DoubleDoubles = dto.DoubleDoubles,
+            TripleDoubles = dto.TripleDoubles,
+            FoulsDrawn = dto.FoulsDrawn,
+            OffensiveFouls = dto.OffensiveFouls,
+            FastBreakAttempts = dto.FastBreakAttempts,
+            FastBreakMade = dto.FastBreakMade,
+            FastBreakPercent = dto.FastBreakPercent,
+            FastBreakPoints = dto.FastBreakPoints,
+            CoachEjections = dto.CoachEjections,
+            SecondChanceAttempts = dto.SecondChanceAttempts,
+            SecondChanceMade = dto.SecondChanceMade,
+            SecondChancePercent = dto.SecondChancePercent,
+            SecondChancePoints = dto.SecondChancePoints,
+            Minus = dto.Minus,
+            Plus = dto.Plus,
+            CoachTechsFouls = dto.CoachTechsFouls
         };
     }
 }
