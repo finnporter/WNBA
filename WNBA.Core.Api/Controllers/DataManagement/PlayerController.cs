@@ -36,7 +36,7 @@ namespace WNBA.Core.Api.Controllers.DataManagement
 
         [HttpGet]
         [Route("player/{id}")]
-        public async Task<ObjectResult> ReadPlayer([FromRoute] string id)
+        public async Task<ObjectResult> ReadPlayerFromApi([FromRoute] string id)
         {
             if (string.IsNullOrEmpty(id)) { throw new ArgumentNullException(nameof(id)); };
             logger.LogInformation("Starting process to retrieve player {id}.", id);
