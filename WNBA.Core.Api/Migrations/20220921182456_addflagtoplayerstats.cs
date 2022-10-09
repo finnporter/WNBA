@@ -4,23 +4,23 @@
 
 namespace WNBA.Core.Api.Migrations
 {
-    public partial class AddSeasonToTeamCoach : Migration
+    public partial class addflagtoplayerstats : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "Season",
-                table: "TeamCoaches",
-                type: "int",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsTotal",
+                table: "PlayerStats",
+                type: "bit",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Season",
-                table: "TeamCoaches");
+                name: "IsTotal",
+                table: "PlayerStats");
         }
     }
 }

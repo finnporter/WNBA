@@ -30,6 +30,12 @@ namespace WNBA.Core.Api.JsonModels
         [property: JsonProperty("draft")] Draft Draft
     )
     {
+        [property: JsonProperty("seasons")]
+        public List<PlayerSeasonDto>? Seasons { get; set; }
+
+        [property: JsonProperty("team")]
+        public TeamIdDto? CurrentTeamId { get; set; }
+
         public virtual double HeightInCm
         {
             get

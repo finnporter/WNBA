@@ -29,6 +29,9 @@ namespace WNBA.Core.Api.Services.Implementation
 
             try
             {
+                var venue = team.Venue;
+                await databaseRepository.CreateOrUpdateEntityAsync(venue).ConfigureAwait(false);
+
                 var newTeam = Team.ToModel(team);
                 await databaseRepository.CreateOrUpdateEntityAsync(newTeam).ConfigureAwait(false);
                 await databaseRepository.CreateOrUpdateEntityAsync(team.Venue).ConfigureAwait(false);
@@ -39,6 +42,7 @@ namespace WNBA.Core.Api.Services.Implementation
                 {
                     await databaseRepository.CreateOrUpdateEntityAsync(coach).ConfigureAwait(false);
 
+                    //TODO rethink. do coaches need to be treated like teamplayers?
                     var existingTeamCoach = await context.TeamCoaches
                         .FirstOrDefaultAsync(x => x.CoachId == coach.Id &&
                             x.TeamId == newTeam.Id &&
@@ -62,24 +66,11 @@ namespace WNBA.Core.Api.Services.Implementation
                 var players = team.Players;
                 foreach (var player in players)
                 {
+                    player.CurrentTeamId = new TeamIdDto(newTeam.Id);
                     await databaseRepository.CreateOrUpdateEntityAsync(Player.ToModel(player)).ConfigureAwait(false);
 
-                    var existingTeamPlayer = await context.TeamPlayers
-                        .FirstOrDefaultAsync(x => x.TeamId == newTeam.Id &&
-                            x.PlayerId == player.Id &&
-                            x.EndedOn == null)
-                        .ConfigureAwait(false);
-
-                    if ( existingTeamPlayer is null)
-                    {
-                        context.TeamPlayers.Add(new TeamPlayer()
-                        {
-                            Id = Guid.NewGuid(),
-                            PlayerId = player.Id,
-                            TeamId = newTeam.Id,
-                        });
-                    }
-                    //else it already exists and nothing needs to be done
+                    //TODO handle this shit
+                    //await databaseRepository.CreateOrUpdatePlayerStatsAsync(player);
                 }
             }
             catch (Exception e)
@@ -98,6 +89,18 @@ namespace WNBA.Core.Api.Services.Implementation
             {
                 await databaseRepository.CreateOrUpdateEntityAsync(Season.ToModel(season)).ConfigureAwait(false);
             }
+        }
+
+        public async Task HandlePlayerAsync(string id, PlayerDto player)
+        {
+            await databaseRepository.CreateOrUpdateEntityAsync(Player.ToModel(player)).ConfigureAwait(false);
+
+            foreach (var season in player.Seasons)
+            {
+                await databaseRepository.CreateOrUpdatePlayerSeasonStatsAsync(season, player.Id).ConfigureAwait(false);
+            }
+                       
+
         }
     }
 }

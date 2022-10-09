@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WNBA.Core.Api.DataModels;
 using WNBA.Core.Api.DbHelper;
+using WNBA.Core.Api.JsonModels;
 
 namespace WNBA.Core.Api.Repositories;
 
@@ -19,4 +21,18 @@ public interface IDatabaseRepository
     /// <typeparam name="T"></typeparam>
     /// <param name="entity"></param>
     Task CreateOrUpdateEntityAsync<T>(T entity) where T : EntityBaseClass;
+
+    /// <summary>
+    /// Gets an entity from the database by Id.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="id"></param>
+    Task<T?> GetEntityAsync<T>(Guid id) where T : EntityBaseClass;
+
+    /// <summary>
+    /// Creates or updates stats for a player's season per team
+    /// </summary>
+    /// <param name="playerId"></param>
+    /// <param name="teamId"></param>
+    Task CreateOrUpdatePlayerSeasonStatsAsync(PlayerSeasonDto playerSeason, Guid playerId);
 }

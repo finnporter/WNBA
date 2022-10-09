@@ -10,13 +10,14 @@ namespace WNBA.Core.Api.DataModels
     /// <summary>
     /// Joins Teams and Players
     /// </summary>
-    public class TeamPlayer : EntityBaseClass
+    public class TeamPlayerSeason : EntityBaseClass
     { 
-        public Guid PlayerId { get; set; }
         public Guid TeamId { get; set; }
-        public DateTime? EndedOn { get; set; }
-
+        public Guid PlayerId { get; set; }
+        public Guid SeasonId { get; set; }
+        
+        public virtual Player Player { get; set; }
+        public virtual Season Season { get; set; }
         public virtual Team Team { get; set; }
-        public virtual Player Player { get; set; }        
     };
 }

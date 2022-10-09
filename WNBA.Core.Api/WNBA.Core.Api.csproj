@@ -8,14 +8,56 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="JsonModels\obj\**" />
-    <EmbeddedResource Remove="JsonModels\obj\**" />
-    <None Remove="JsonModels\obj\**" />
+    <Compile Remove="Dtos\obj\**" />
+    <EmbeddedResource Remove="Dtos\obj\**" />
+    <None Remove="Dtos\obj\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="DataModels\TeamPlayer.cs" />
+    <Compile Remove="Dtos\PlayerSeasonsDto.cs" />
+    <Compile Remove="Migrations\20220729175529_AddPlayer.cs" />
+    <Compile Remove="Migrations\20220729175529_AddPlayer.Designer.cs" />
     <Compile Remove="Migrations\20220729181323_AddsTeamsAndArenas.cs" />
     <Compile Remove="Migrations\20220729181323_AddsTeamsAndArenas.Designer.cs" />
+    <Compile Remove="Migrations\20220729181915_AddsTeamsAndArenas.cs" />
+    <Compile Remove="Migrations\20220729181915_AddsTeamsAndArenas.Designer.cs" />
+    <Compile Remove="Migrations\20220729182614_AddsTeamPlayers.cs" />
+    <Compile Remove="Migrations\20220729182614_AddsTeamPlayers.Designer.cs" />
+    <Compile Remove="Migrations\20220729182757_RenameFieldOnTeamPlayer.cs" />
+    <Compile Remove="Migrations\20220729182757_RenameFieldOnTeamPlayer.Designer.cs" />
+    <Compile Remove="Migrations\20220803173751_changenameofarenatovenue.cs" />
+    <Compile Remove="Migrations\20220803173751_changenameofarenatovenue.Designer.cs" />
+    <Compile Remove="Migrations\20220803191052_fixTeamVenueDataFields.cs" />
+    <Compile Remove="Migrations\20220803191052_fixTeamVenueDataFields.Designer.cs" />
+    <Compile Remove="Migrations\20220806171959_AddCoach.cs" />
+    <Compile Remove="Migrations\20220806171959_AddCoach.Designer.cs" />
+    <Compile Remove="Migrations\20220806174958_updatePlayer.cs" />
+    <Compile Remove="Migrations\20220806174958_updatePlayer.Designer.cs" />
+    <Compile Remove="Migrations\20220807160647_AddCoachPlayerUpdateTeamPlayer.cs" />
+    <Compile Remove="Migrations\20220807160647_AddCoachPlayerUpdateTeamPlayer.Designer.cs" />
+    <Compile Remove="Migrations\20220917183021_AddSeasonToTeamCoach.cs" />
+    <Compile Remove="Migrations\20220917183021_AddSeasonToTeamCoach.Designer.cs" />
+    <Compile Remove="Migrations\20220917183154_AddEndedOnToTeamCoach.cs" />
+    <Compile Remove="Migrations\20220917183154_AddEndedOnToTeamCoach.Designer.cs" />
+    <Compile Remove="Migrations\20220917184703_TeamCoachSeasonMakeNullable.cs" />
+    <Compile Remove="Migrations\20220917184703_TeamCoachSeasonMakeNullable.Designer.cs" />
+    <Compile Remove="Migrations\20220917191524_AddEndedOnToTeamPlayer.cs" />
+    <Compile Remove="Migrations\20220917191524_AddEndedOnToTeamPlayer.Designer.cs" />
+    <Compile Remove="Migrations\20220918113639_AddSeasons.cs" />
+    <Compile Remove="Migrations\20220918113639_AddSeasons.Designer.cs" />
+    <Compile Remove="Migrations\20220918124303_removeseasons.cs" />
+    <Compile Remove="Migrations\20220918124303_removeseasons.Designer.cs" />
+    <Compile Remove="Migrations\20220918124328_readdseason.cs" />
+    <Compile Remove="Migrations\20220918124328_readdseason.Designer.cs" />
+    <Compile Remove="Migrations\20220920205940_addsActiveFlagToTeamPlayer.cs" />
+    <Compile Remove="Migrations\20220920205940_addsActiveFlagToTeamPlayer.Designer.cs" />
+    <Compile Remove="Migrations\20220920215248_PlayerHasTeamId.cs" />
+    <Compile Remove="Migrations\20220920215248_PlayerHasTeamId.Designer.cs" />
+    <Compile Remove="Migrations\20220920222935_sync.cs" />
+    <Compile Remove="Migrations\20220920222935_sync.Designer.cs" />
+    <Compile Remove="Migrations\20220920223208_addTeamPlayerSeason.cs" />
+    <Compile Remove="Migrations\20220920223208_addTeamPlayerSeason.Designer.cs" />
     <Compile Remove="Migrations\ApplicationDbContextModelSnapshot_old.cs" />
   </ItemGroup>
 

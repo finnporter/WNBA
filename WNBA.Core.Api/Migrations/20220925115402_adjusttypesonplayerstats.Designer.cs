@@ -12,8 +12,8 @@ using WNBA.Core.Api.Configuration;
 namespace WNBA.Core.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220917191524_AddEndedOnToTeamPlayer")]
-    partial class AddEndedOnToTeamPlayer
+    [Migration("20220925115402_adjusttypesonplayerstats")]
+    partial class adjusttypesonplayerstats
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,6 +64,9 @@ namespace WNBA.Core.Api.Migrations
 
                     b.Property<string>("College")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CurrentTeamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("DraftedBy")
                         .HasColumnType("uniqueidentifier");
@@ -118,7 +121,231 @@ namespace WNBA.Core.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CurrentTeamId");
+
                     b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("WNBA.Core.Api.DataModels.PlayerStats", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Assists")
+                        .HasColumnType("real");
+
+                    b.Property<float>("AssistsTurnoverRatio")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BlockedAttempts")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Blocks")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CoachEjections")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CoachTechsFouls")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("DefRebounds")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("DefensiveRebounds")
+                        .HasColumnType("real");
+
+                    b.Property<float>("DoubleDoubles")
+                        .HasColumnType("real");
+
+                    b.Property<double>("EffeciveFGPercent")
+                        .HasColumnType("float");
+
+                    b.Property<float>("Efficiency")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Ejections")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FastBreakAttempts")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FastBreakMade")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FastBreakPercent")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FastBreakPoints")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FieldGoalsAttempts")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FieldGoalsMade")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FieldGoalsPercent")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FlagrantFouls")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Foulouts")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FoulsDrawn")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FreeThrowsAttempts")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FreeThrowsMade")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FreeTrhowsPercent")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("GamesPlayed")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("GamesStarted")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("IsTotal")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("Minus")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Minutes")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("OffRebounds")
+                        .HasColumnType("real");
+
+                    b.Property<float>("OffensiveFouls")
+                        .HasColumnType("real");
+
+                    b.Property<float?>("OffensiveRebounds")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PersonalFouls")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Plus")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Points")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PointsInPaint")
+                        .HasColumnType("real");
+
+                    b.Property<double>("PointsInPaintAttempts")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PointsInPaintMade")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PointsInPaintPercent")
+                        .HasColumnType("float");
+
+                    b.Property<float>("PointsOffTurnovers")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Rebounds")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SecondChanceAttempts")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SecondChanceMade")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SecondChancePercent")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SecondChancePoints")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Steals")
+                        .HasColumnType("real");
+
+                    b.Property<Guid>("TeamPlayerSeasonId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("TechnicalFouls")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ThreePointsAttempts")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ThreePointsMade")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ThreePointsPercent")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TripleDoubles")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TrueShootingAttempts")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TrueShootingPercent")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Turnovers")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TwoPointsAttempts")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TwoPointsMade")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TwoPointsPercent")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamPlayerSeasonId");
+
+                    b.ToTable("PlayerStats");
+                });
+
+            modelBuilder.Entity("WNBA.Core.Api.DataModels.Season", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Seasons");
                 });
 
             modelBuilder.Entity("WNBA.Core.Api.DataModels.Team", b =>
@@ -175,16 +402,16 @@ namespace WNBA.Core.Api.Migrations
                     b.ToTable("TeamCoaches");
                 });
 
-            modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamPlayer", b =>
+            modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamPlayerSeason", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("EndedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("PlayerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SeasonId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TeamId")
@@ -194,9 +421,11 @@ namespace WNBA.Core.Api.Migrations
 
                     b.HasIndex("PlayerId");
 
+                    b.HasIndex("SeasonId");
+
                     b.HasIndex("TeamId");
 
-                    b.ToTable("TeamPlayers");
+                    b.ToTable("TeamPlayerSeasons");
                 });
 
             modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamVenue", b =>
@@ -246,6 +475,28 @@ namespace WNBA.Core.Api.Migrations
                     b.ToTable("Venues");
                 });
 
+            modelBuilder.Entity("WNBA.Core.Api.DataModels.Player", b =>
+                {
+                    b.HasOne("WNBA.Core.Api.DataModels.Team", "CurrentTeam")
+                        .WithMany()
+                        .HasForeignKey("CurrentTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CurrentTeam");
+                });
+
+            modelBuilder.Entity("WNBA.Core.Api.DataModels.PlayerStats", b =>
+                {
+                    b.HasOne("WNBA.Core.Api.DataModels.TeamPlayerSeason", "TeamPlayerSeason")
+                        .WithMany()
+                        .HasForeignKey("TeamPlayerSeasonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TeamPlayerSeason");
+                });
+
             modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamCoach", b =>
                 {
                     b.HasOne("WNBA.Core.Api.DataModels.Coach", "Coach")
@@ -265,11 +516,17 @@ namespace WNBA.Core.Api.Migrations
                     b.Navigation("Team");
                 });
 
-            modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamPlayer", b =>
+            modelBuilder.Entity("WNBA.Core.Api.DataModels.TeamPlayerSeason", b =>
                 {
                     b.HasOne("WNBA.Core.Api.DataModels.Player", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WNBA.Core.Api.DataModels.Season", "Season")
+                        .WithMany()
+                        .HasForeignKey("SeasonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -280,6 +537,8 @@ namespace WNBA.Core.Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Player");
+
+                    b.Navigation("Season");
 
                     b.Navigation("Team");
                 });

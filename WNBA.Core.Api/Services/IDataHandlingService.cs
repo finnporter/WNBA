@@ -22,4 +22,10 @@ public interface IDataHandlingService
     /// <param name="seasons"></param>
     /// <returns></returns>
     Task HandleSeasonsAsync(List<SeasonDto> seasons);
+
+    /// <summary>
+    /// Handles the saving of players to the database.
+    /// </summary>
+    /// <param name="seasons">
+    Task HandlePlayerAsync(string id, PlayerDto player);
 }
