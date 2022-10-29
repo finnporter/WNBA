@@ -6,7 +6,7 @@ using WNBA.Core.Api.Configuration;
 using WNBA.Core.Api.DataModels;
 using WNBA.Core.Api.JsonModels;
 
-namespace WNBA.Core.Api.Controllers.DataManagement;
+namespace WNBA.Core.Api.Controllers;
 
 /// <summary>
 /// CRUD functionality for venues

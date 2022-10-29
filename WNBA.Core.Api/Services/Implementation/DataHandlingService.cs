@@ -102,5 +102,20 @@ namespace WNBA.Core.Api.Services.Implementation
                        
 
         }
+
+        public async Task<List<string>> HandleLeagueHierarchyAsync(LeagueHierarchyDto leagueHierarchy)
+        {
+            var teamIds = new List<string>();
+            foreach (var item in leagueHierarchy.Conferences)
+            {
+                foreach (var team in item.Teams)
+                { 
+                    await databaseRepository.CreateOrUpdateEntityAsync(Team.ToModel(team));
+                    await databaseRepository.CreateOrUpdateEntityAsync(team.Venue);
+                    teamIds.Add(team.Id.ToString());
+                }
+            }
+            return teamIds;
+        }
     }
 }

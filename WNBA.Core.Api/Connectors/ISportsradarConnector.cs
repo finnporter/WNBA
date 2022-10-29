@@ -19,5 +19,11 @@ namespace WNBA.Core.Api.Connectors
         /// </summary>
         /// <returns>A list of all seasons</returns>
         Task<List<SeasonDto>> ReadSeasonsEndpointAsync();
+
+        /// <summary>
+        /// Reads the league hierarchy, used to get team ids
+        /// </summary>
+        /// <returns></returns>
+        Task<LeagueHierarchyDto> ReadLeagueHierarchyAsync();
     }
 }

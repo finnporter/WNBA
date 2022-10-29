@@ -14,7 +14,7 @@ public record TeamDto(
     [property: JsonProperty("market")] string Market,
     [property: JsonProperty("alias")] string Alias,
     [property: JsonProperty("founded")] int Founded,
-    [property: JsonProperty("venues")] Venue Venue,
+    [property: JsonProperty("venue")] Venue Venue,
     [property: JsonProperty("conference")] Conference Conference,
     [property: JsonProperty("coaches")] IEnumerable<Coach> Coaches,
     [property: JsonProperty("players")] IEnumerable<PlayerDto> Players);

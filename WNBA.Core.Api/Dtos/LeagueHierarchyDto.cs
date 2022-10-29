@@ -8,6 +8,5 @@ using WNBA.Core.Api.DataModels;
 
 namespace WNBA.Core.Api.JsonModels;
 
-public record Conference(
-    [property: JsonProperty("name")] string Name,
-    [property: JsonProperty("teams")] List<TeamDto> Teams);
+public record LeagueHierarchyDto(
+    [property: JsonProperty("conferences")] List<Conference> Conferences);

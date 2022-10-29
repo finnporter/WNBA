@@ -9,16 +9,18 @@ namespace WNBA.Core.Api.Connectors.Implementation
     internal sealed class SportsradarConnector : ISportsradarConnector
     {
         private readonly EngineOptions options;
+        private string baseUrl;
 
         public SportsradarConnector(IOptions<EngineOptions> options)
         {
             this.options = options.Value;
+            baseUrl = this.options.SportsradarBaseUrl;
         }
 
         ///</inheridoc>
         public async Task<TeamDto> ReadTeamRosterEndpointAsync(string id)
         {
-            var baseUrl = options.SportsradarBaseUrl;
+            //var baseUrl = options.SportsradarBaseUrl;
 
             if (string.IsNullOrEmpty(id)) { throw new ArgumentNullException(nameof(id)); };
             if (string.IsNullOrEmpty(baseUrl)) { throw new ArgumentNullException(nameof(baseUrl)); };
@@ -32,7 +34,7 @@ namespace WNBA.Core.Api.Connectors.Implementation
 
         public async Task<List<SeasonDto>> ReadSeasonsEndpointAsync()
         {
-            var baseUrl = options.SportsradarBaseUrl;
+            //var baseUrl = options.SportsradarBaseUrl;
 
             if (string.IsNullOrEmpty(baseUrl)) { throw new ArgumentNullException(nameof(baseUrl)); };
 
@@ -43,6 +45,17 @@ namespace WNBA.Core.Api.Connectors.Implementation
                 .ConfigureAwait(false);
 
             return seasonList.Seasons;
+        }
+
+        public async Task<LeagueHierarchyDto> ReadLeagueHierarchyAsync()
+        {
+            //var baseUrl = options.SportsradarBaseUrl;
+
+            return await baseUrl
+                .AppendPathSegment("league/hierarchy.json")
+                .SetQueryParams("api_key", options.SportsradarApiKey)
+                .GetJsonAsync<LeagueHierarchyDto>()
+                .ConfigureAwait(false);
         }
     }
 }

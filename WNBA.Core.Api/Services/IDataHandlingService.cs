@@ -28,4 +28,11 @@ public interface IDataHandlingService
     /// </summary>
     /// <param name="seasons">
     Task HandlePlayerAsync(string id, PlayerDto player);
+
+    /// <summary>
+    /// Handles the saving of base data like team Ids and venues.
+    /// Mostly used for initial setup.
+    /// </summary>
+    /// <returns></returns>
+    Task<List<string>> HandleLeagueHierarchyAsync(LeagueHierarchyDto leagueHierarchy);
 }
