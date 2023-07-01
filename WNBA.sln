@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WNBA.Functions", "WNBA.Functions\WNBA.Functions.csproj", "{416222F8-AFA1-4F95-97B8-DD4526640EB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WNBA.Functions", "WNBA.Functions\WNBA.Functions.csproj", "{416222F8-AFA1-4F95-97B8-DD4526640EB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

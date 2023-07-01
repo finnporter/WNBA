@@ -20,7 +20,7 @@ namespace WNBA.Core.Api.Connectors.Implementation
         ///</inheridoc>
         public async Task<TeamDto> ReadTeamRosterEndpointAsync(string id)
         {
-            //var baseUrl = options.SportsradarBaseUrl;
+            var baseUrl = options.SportsradarBaseUrl;
 
             if (string.IsNullOrEmpty(id)) { throw new ArgumentNullException(nameof(id)); };
             if (string.IsNullOrEmpty(baseUrl)) { throw new ArgumentNullException(nameof(baseUrl)); };
@@ -34,7 +34,7 @@ namespace WNBA.Core.Api.Connectors.Implementation
 
         public async Task<List<SeasonDto>> ReadSeasonsEndpointAsync()
         {
-            //var baseUrl = options.SportsradarBaseUrl;
+            var baseUrl = options.SportsradarBaseUrl;
 
             if (string.IsNullOrEmpty(baseUrl)) { throw new ArgumentNullException(nameof(baseUrl)); };
 
@@ -49,12 +49,23 @@ namespace WNBA.Core.Api.Connectors.Implementation
 
         public async Task<LeagueHierarchyDto> ReadLeagueHierarchyAsync()
         {
-            //var baseUrl = options.SportsradarBaseUrl;
+            var baseUrl = options.SportsradarBaseUrl;
 
             return await baseUrl
                 .AppendPathSegment("league/hierarchy.json")
                 .SetQueryParams("api_key", options.SportsradarApiKey)
                 .GetJsonAsync<LeagueHierarchyDto>()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<PlayerDto> ReadPlayerEndpointAsync(string playerId)
+        {
+            var baseUrl = options.SportsradarBaseUrl;
+
+            return await baseUrl
+                .AppendPathSegment(string.Format("player/{playerId}/profile.json", playerId))
+                .SetQueryParams("api_key", options.SportsradarApiKey)
+                .GetJsonAsync<PlayerDto>()
                 .ConfigureAwait(false);
         }
     }

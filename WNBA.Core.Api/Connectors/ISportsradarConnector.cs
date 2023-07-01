@@ -25,5 +25,11 @@ namespace WNBA.Core.Api.Connectors
         /// </summary>
         /// <returns></returns>
         Task<LeagueHierarchyDto> ReadLeagueHierarchyAsync();
+
+        /// <summary>
+        /// Reads the player profile
+        /// </summary>
+        /// <returns></returns>
+        Task<PlayerDto> ReadPlayerEndpointAsync(string playerId);
     }
 }

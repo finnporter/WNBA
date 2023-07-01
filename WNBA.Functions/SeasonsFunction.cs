@@ -13,42 +13,34 @@ using WNBA.Core.Api.Services;
 namespace WNBA.Functions
 {
     /// <summary>
-    /// Seeds the database when first set up
+    /// Gets seasons from the Api to update the database
     /// </summary>
-    public class GetSetupDataFunction
+    public class SeasonsFunction
     {
-        private readonly ILogger<GetSetupDataFunction> logger;
+        private readonly ILogger<SeasonsFunction> logger;
         private readonly ISportsradarConnector sportsradarConnector;
         private readonly IDataHandlingService dataHandlingService;
 
-        public GetSetupDataFunction(ILogger<GetSetupDataFunction> logger, ISportsradarConnector sportsradarConnector, IDataHandlingService dataHandlingService)
+        public SeasonsFunction(ILogger<SeasonsFunction> logger, ISportsradarConnector sportsradarConnector, IDataHandlingService dataHandlingService)
         {
             this.logger = logger;
             this.sportsradarConnector = sportsradarConnector;
             this.dataHandlingService = dataHandlingService;
         }
 
-        [FunctionName(nameof(GetSetupDataFunction))]
+        [FunctionName(nameof(SeasonsFunction))]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req)
         {
-            logger.LogDebug("Beginning data seeding.");
+            logger.LogDebug("Getting seasons from API");
 
             //Get Seasons from Api
             var seasons = await sportsradarConnector.ReadSeasonsEndpointAsync().ConfigureAwait(false);
             await dataHandlingService.HandleSeasonsAsync(seasons).ConfigureAwait(false);
 
-            //Get LeagueHierarchy
-            var hierarchy = await sportsradarConnector.ReadLeagueHierarchyAsync().ConfigureAwait(false);
-            var teamIds = await dataHandlingService.HandleLeagueHierarchyAsync(hierarchy).ConfigureAwait(false);
+            logger.LogDebug("Seasons successfully imported.");
 
-            //Get TeamRosters
-            foreach (var id in teamIds)
-            {
-                var teamroster = await sportsradarConnector.ReadTeamRosterEndpointAsync(id);
-                await dataHandlingService.HandleTeamRosterAsync(id, teamroster).ConfigureAwait(false);
-            }
-            return new OkObjectResult("Setup finished.");
+            return new OkObjectResult(seasons);
         }
     }
 }

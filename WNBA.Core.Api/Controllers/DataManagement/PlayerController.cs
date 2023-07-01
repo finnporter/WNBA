@@ -43,13 +43,7 @@ namespace WNBA.Core.Api.Controllers.DataManagement
 
             try
             {
-                //TODO connect to sportsradar
-                //var player = await sportsradarConnector.ReadPlayerEndpointAsync(id).ConfigureAwait(false);
-
-                //TEMP handing in an example player until this works
-                var stream = new StreamReader(Request.Body);
-                var body = await stream.ReadToEndAsync();
-                var player = JsonConvert.DeserializeObject<PlayerDto>(body);
+                var player = await sportsradarConnector.ReadPlayerEndpointAsync(id).ConfigureAwait(false);
 
                 await dataHandlingService.HandlePlayerAsync(id, player);
 
